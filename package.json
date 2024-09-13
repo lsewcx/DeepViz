@@ -10,11 +10,14 @@
   },
   "dependencies": {
     "d3": "^7.9.0",
+    "element-plus": "^2.8.3",
     "vue": "^3.4.37"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^5.1.2",
     "typescript": "^5.5.3",
+    "unplugin-auto-import": "^0.18.3",
+    "unplugin-vue-components": "^0.27.4",
     "vite": "^5.4.1",
     "vue-tsc": "^2.0.29"
   }

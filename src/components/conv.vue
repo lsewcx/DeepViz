@@ -7,6 +7,7 @@
 import { onMounted, ref } from 'vue';
 import * as d3 from 'd3';
 
+
 const convContainer = ref(null);
 const formulaContainer = ref(null);
 
@@ -31,7 +32,7 @@ onMounted(() => {
 
     const resultHeight = dataHeight - kernelHeight + 1;
     const resultWidth = dataWidth - kernelWidth + 1;
-
+    //自动根据输入的数组大小和卷积核的大小计算结果矩阵的大小
     const result = Array.from({ length: resultHeight }, () => Array(resultWidth).fill(0));
 
     // 计算 SVG 容器的宽度和高度
