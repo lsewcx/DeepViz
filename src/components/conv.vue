@@ -18,13 +18,14 @@ onMounted(() => {
     ];
     
     const kernel = [
-        [1, 1]
+        [1, 1],
+        [1, 2]
     ];
 
     const cellSize = 50;
     const padding = 5;
     const paddingZeros = 1; // 填充0的数量
-    const step = 3; // 步长
+    const step = 2; // 步长
 
     // 在数据矩阵周围添加填充0
     const paddedData = Array.from({ length: data.length + 2 * paddingZeros }, (_, i) => 
@@ -157,6 +158,18 @@ onMounted(() => {
                         }
                         return 'lightblue';
                     });
+
+                resultGroup.selectAll('rect')
+                    .data(result.flat())
+                    .attr('fill', (d, index) => {
+                        const x = index % result[0].length;
+                        const y = Math.floor(index / result[0].length);
+                        if (x === Math.floor(j / step) && y === Math.floor(i / step)) {
+                            return 'orange';
+                        }
+                        return 'lightcoral';
+                    })
+                    .attr('stroke', 'black');
 
                 await new Promise(resolve => setTimeout(resolve, 1000));
             }
