@@ -11,28 +11,32 @@ const convContainer = ref(null);
 const formulaContainer = ref(null);
 
 onMounted(() => {
-    const data = [
-        [1, 2, 3],
-        [4, 5, 6],
-        [7, 8, 9]
+    const data: Array = [
+        [1, 2, 4, 6,7,8],
+        [4, 5, 6, 7,9,8],
+        [7, 8, 9, 8,9,6]
     ];
 
-    const kernel = [
-        [1, 0],
-        [0, -1]
+    const kernel: Array = [
+        [1, 1]
     ];
 
-    const cellSize = 50;
-    const padding = 5;
+    const cellSize: Number = 50;
+    const padding: Number = 5;
 
-    const result = [
-        [0, 0],
-        [0, 0]
-    ];
+    const dataHeight = data.length;
+    const dataWidth = data[0].length;
+    const kernelHeight = kernel.length;
+    const kernelWidth = kernel[0].length;
+
+    const resultHeight = dataHeight - kernelHeight + 1;
+    const resultWidth = dataWidth - kernelWidth + 1;
+
+    const result = Array.from({ length: resultHeight }, () => Array(resultWidth).fill(0));
 
     // 计算 SVG 容器的宽度和高度
-    const svgWidth = (data[0].length + kernel[0].length + result[0].length + 2) * (cellSize + padding);
-    const svgHeight = Math.max(data.length, kernel.length, result.length) * (cellSize + padding) + padding;
+    const svgWidth: Number = (data[0].length + kernel[0].length + result[0].length + 2) * (cellSize + padding);
+    const svgHeight: Number = Math.max(data.length, kernel.length, result.length) * (cellSize + padding) + padding;
 
     // Create SVG element
     const container = d3.select(convContainer.value);
@@ -168,20 +172,28 @@ onMounted(() => {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: 10px; /* 减少顶部间距 */
+    margin-top: 10px;
+    /* 减少顶部间距 */
     width: 100%;
-    height: 60vh; /* 减少高度 */
-    transform: scale(0.8); /* 缩小比例 */
-    transform-origin: top; /* 设置缩放原点 */
+    height: 60vh;
+    /* 减少高度 */
+    transform: scale(0.8);
+    /* 缩小比例 */
+    transform-origin: top;
+    /* 设置缩放原点 */
 }
 
 .formula-container {
     text-align: center;
-    margin-top: 1px; /* 减少顶部间距 */
-    font-size: 18px; /* 减小字体大小 */
+    margin-top: 1px;
+    /* 减少顶部间距 */
+    font-size: 18px;
+    /* 减小字体大小 */
     font-weight: bold;
 
-    transform: scale(1); /* 缩小比例 */
-    transform-origin: top; /* 设置缩放原点 */
+    transform: scale(1);
+    /* 缩小比例 */
+    transform-origin: top;
+    /* 设置缩放原点 */
 }
 </style>
