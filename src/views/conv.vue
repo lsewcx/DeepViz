@@ -8,15 +8,15 @@
         <el-slider v-model="step" :min="1" :max="3" @input="updateConvolution" class="small-slider" />
     </div>
     <el-button @click="startAnimation">
-            <el-icon>
-                <svg t="1726291468217" class="icon" viewBox="0 0 1024 1024" version="1.1"
-                    xmlns="http://www.w3.org/2000/svg" p-id="1478" width="200" height="200">
-                    <path
-                        d="M675.328 117.717333A425.429333 425.429333 0 0 0 512 85.333333C276.352 85.333333 85.333333 276.352 85.333333 512s191.018667 426.666667 426.666667 426.666667 426.666667-191.018667 426.666667-426.666667c0-56.746667-11.093333-112-32.384-163.328a21.333333 21.333333 0 0 0-39.402667 16.341333A382.762667 382.762667 0 0 1 896 512c0 212.074667-171.925333 384-384 384S128 724.074667 128 512 299.925333 128 512 128c51.114667 0 100.8 9.984 146.986667 29.12a21.333333 21.333333 0 0 0 16.341333-39.402667zM456.704 305.92C432.704 289.152 405.333333 303.082667 405.333333 331.797333v360.533334c0 28.586667 27.541333 42.538667 51.370667 25.856l252.352-176.768c21.76-15.253333 21.632-43.541333 0-58.709334l-252.373333-176.768z m-8.597333 366.72V351.466667l229.269333 160.597333-229.269333 160.597333z"
-                        fill="#3D3D3D" p-id="1479"></path>
-                </svg>
-            </el-icon>
-        </el-button>
+        <el-icon>
+            <svg t="1726291468217" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"
+                p-id="1478" width="200" height="200">
+                <path
+                    d="M675.328 117.717333A425.429333 425.429333 0 0 0 512 85.333333C276.352 85.333333 85.333333 276.352 85.333333 512s191.018667 426.666667 426.666667 426.666667 426.666667-191.018667 426.666667-426.666667c0-56.746667-11.093333-112-32.384-163.328a21.333333 21.333333 0 0 0-39.402667 16.341333A382.762667 382.762667 0 0 1 896 512c0 212.074667-171.925333 384-384 384S128 724.074667 128 512 299.925333 128 512 128c51.114667 0 100.8 9.984 146.986667 29.12a21.333333 21.333333 0 0 0 16.341333-39.402667zM456.704 305.92C432.704 289.152 405.333333 303.082667 405.333333 331.797333v360.533334c0 28.586667 27.541333 42.538667 51.370667 25.856l252.352-176.768c21.76-15.253333 21.632-43.541333 0-58.709334l-252.373333-176.768z m-8.597333 366.72V351.466667l229.269333 160.597333-229.269333 160.597333z"
+                    fill="#3D3D3D" p-id="1479"></path>
+            </svg>
+        </el-icon>
+    </el-button>
     <div ref="convContainer" class="conv-container"></div>
     <div ref="formulaContainer" class="formula-container"></div>
 </template>
@@ -91,7 +91,8 @@ const updateConvolution = () => {
         .attr('width', cellSize)
         .attr('height', cellSize)
         .attr('fill', 'lightblue')
-        .attr('stroke', 'black');
+        .attr('stroke', 'black')
+        .attr('data-index', (d, i) => i);
 
     inputGroup.selectAll('text')
         .data(paddedData.flat())
@@ -131,7 +132,7 @@ const updateConvolution = () => {
         .attr('transform', `translate(${(paddedData[0].length + kernel[0].length + 2) * (cellSize + padding)}, ${padding})`);
 
     resultGroup.selectAll('rect')
-        .data(result.flat())
+        .data(result.flat().map((d, i) => ({ value: d, index: i })))
         .enter()
         .append('rect')
         .attr('x', (d, i) => (i % result[0].length) * (cellSize + padding))
@@ -139,17 +140,69 @@ const updateConvolution = () => {
         .attr('width', cellSize)
         .attr('height', cellSize)
         .attr('fill', 'lightcoral')
-        .attr('stroke', 'black');
+        .attr('stroke', 'black')
+        .on('click', function (event, d) {
+            // 计算点击的块在结果矩阵中的位置
+            const resultX = d.index % result[0].length;
+            const resultY = Math.floor(d.index / result[0].length);
+
+            // 清空之前高亮显示的输入矩阵和卷积核
+            inputGroup.selectAll('rect').attr('fill', 'lightblue');
+            kernelGroup.selectAll('rect').attr('fill', 'lightgreen');
+
+            // 计算点击的块在输入矩阵中的对应位置
+            const inputStartX = resultX * step.value;
+            const inputStartY = resultY * step.value;
+
+            // 计算卷积核的边界
+            const kernelEndX = kernelWidth;
+            const kernelEndY = kernelHeight;
+
+            // 计算输入矩阵中需要高亮显示的区域
+            for (let i = 0; i < kernelHeight; i++) {
+                for (let j = 0; j < kernelWidth; j++) {
+                    const inputIndex = (inputStartY + i) * paddedData[0].length + (inputStartX + j);
+                    inputGroup.select('rect[data-index="' + inputIndex + '"]').attr('fill', 'orange');
+                }
+            }
+
+            // 计算并高亮显示卷积核中对应的元素
+            for (let i = 0; i < kernelHeight; i++) {
+                for (let j = 0; j < kernelWidth; j++) {
+                    const kernelIndex = i * kernelWidth + j;
+                    kernelGroup.select('rect[data-index="' + kernelIndex + '"]').attr('fill', 'orange');
+                }
+            }
+
+            // 显示公式
+            let formula = '';
+            for (let i = 0; i < kernelHeight; i++) {
+                for (let j = 0; j < kernelWidth; j++) {
+                    const inputValue = paddedData[inputStartY + i][inputStartX + j];
+                    const kernelValue = kernel[i][j];
+                    formula += `${inputValue} * ${kernelValue} + `;
+                }
+            }
+            formula = formula.slice(0, -3); // Remove the last ' + '
+            d3.select(formulaContainer.value).text(`公式: ${formula} = ${d.value}`);
+
+            // 重置被点击的卷积结果块的颜色
+            resultGroup.selectAll('rect').attr('fill', (di, i) => {
+                const blockX = i % result[0].length;
+                const blockY = Math.floor(i / result[0].length);
+                return (blockX === resultX && blockY === resultY) ? 'orange' : 'lightcoral';
+            });
+        });
 
     const resultText = resultGroup.selectAll('text')
-        .data(result.flat())
+        .data(result.flat().map((d, i) => ({ value: d, index: i })))
         .enter()
         .append('text')
         .attr('x', (d, i) => (i % result[0].length) * (cellSize + padding) + cellSize / 2)
         .attr('y', (d, i) => Math.floor(i / result[0].length) * (cellSize + padding) + cellSize / 2)
         .attr('dy', '.35em')
         .attr('text-anchor', 'middle')
-        .text(d => d);
+        .text(d => d.value);
 
     const animateConvolution = async () => {
         for (let i = 0; i <= dataHeight - kernelHeight; i += step.value) {
@@ -169,8 +222,8 @@ const updateConvolution = () => {
 
                 d3.select(formulaContainer.value).text(`公式: ${formula} = ${sum}`);
 
-                resultText.data(result.flat())
-                    .text(d => d);
+                resultText.data(result.flat().map((d, i) => ({ value: d, index: i })))
+                    .text(d => d.value);
 
                 inputGroup.selectAll('rect')
                     .attr('fill', (d, index) => {
@@ -183,7 +236,7 @@ const updateConvolution = () => {
                     });
 
                 resultGroup.selectAll('rect')
-                    .data(result.flat())
+                    .data(result.flat().map((d, i) => ({ value: d, index: i })))
                     .attr('fill', (d, index) => {
                         const x = index % result[0].length;
                         const y = Math.floor(index / result[0].length);
@@ -221,17 +274,22 @@ onMounted(() => {
 }
 
 .small-slider {
-    width: 200px; /* 调整滑块的宽度 */
-    height: 10px; /* 调整滑块的高度 */
+    width: 200px;
+    /* 调整滑块的宽度 */
+    height: 10px;
+    /* 调整滑块的高度 */
 }
 
 .el-slider__runway {
-    height: 10px !important; /* 强制调整滑块轨道的高度 */
+    height: 10px !important;
+    /* 强制调整滑块轨道的高度 */
 }
 
 .el-slider__thumb {
-    width: 14px !important; /* 强制调整滑块拇指的宽度 */
-    height: 14px !important; /* 强制调整滑块拇指的高度 */
+    width: 14px !important;
+    /* 强制调整滑块拇指的宽度 */
+    height: 14px !important;
+    /* 强制调整滑块拇指的高度 */
 }
 
 .conv-container {
