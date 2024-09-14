@@ -1,4 +1,4 @@
-import { createMemoryHistory, createRouter, Router, RouteRecordRaw } from 'vue-router'
+import { createWebHistory, createRouter, Router, RouteRecordRaw } from 'vue-router'
 
 import conv from '../views/conv.vue'
 import index from '../views/index.vue'
@@ -9,13 +9,13 @@ const routes: Array<RouteRecordRaw> = [
         component: index,
     },
     {
-        path: '/conv',
+        path: '/conv/conv2d',
         component: conv,
     }
 ]
 
 const router: Router = createRouter({
-    history: createMemoryHistory(),
+    history: createWebHistory(),
     routes,
 })
 

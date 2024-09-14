@@ -4,7 +4,7 @@
         <el-radio-button :value="true">collapse</el-radio-button>
     </el-radio-group>
     <el-menu default-active="2" class="el-menu-vertical-demo" :collapse="isCollapse" @open="handleOpen"
-        @close="handleClose">
+        @close="handleClose" :router="true">
         <el-sub-menu index="1">
             <template #title>
                 <el-icon>
@@ -21,8 +21,9 @@
                 <span>卷积</span>
             </template>
             <el-menu-item-group>
-                <template #title><span>Group One</span></template>
-                <el-menu-item index="1-1">item one</el-menu-item>
+                <template #title>
+                </template>
+                <el-menu-item index="/conv/conv2d">二维卷积</el-menu-item>
                 <el-menu-item index="1-2">item two</el-menu-item>
             </el-menu-item-group>
             <el-menu-item-group title="Group Two">
@@ -34,34 +35,49 @@
             </el-sub-menu>
         </el-sub-menu>
         <el-menu-item index="2">
-            <el-icon><icon-menu /></el-icon>
-            <template #title>Navigator Two</template>
+            <el-icon> <svg t="1726279525449" class="icon" viewBox="0 0 1024 1024" version="1.1"
+                    xmlns="http://www.w3.org/2000/svg" p-id="4433" width="200" height="200">
+                    <path
+                        d="M35.310345 35.310345m141.241379 0l670.896552 0q141.241379 0 141.241379 141.241379l0 670.896552q0 141.241379-141.241379 141.241379l-670.896552 0q-141.241379 0-141.241379-141.241379l0-670.896552q0-141.241379 141.241379-141.241379Z"
+                        fill="#2c2c2c" opacity=".15" p-id="4434"></path>
+                    <path
+                        d="M847.448276 17.655172H176.551724A158.896552 158.896552 0 0 0 17.655172 176.551724v670.896552A158.896552 158.896552 0 0 0 176.551724 1006.344828h670.896552a158.896552 158.896552 0 0 0 158.896552-158.896552V176.551724A158.896552 158.896552 0 0 0 847.448276 17.655172zM176.551724 52.965517h670.896552A123.586207 123.586207 0 0 1 971.034483 176.551724v670.896552a123.586207 123.586207 0 0 1-123.586207 123.586207H176.551724A123.586207 123.586207 0 0 1 52.965517 847.448276V176.551724A123.586207 123.586207 0 0 1 176.551724 52.965517z"
+                        fill="#2c2c2c" p-id="4435"></path>
+                    <path
+                        d="M706.206897 247.172414a70.62069 70.62069 0 0 1 70.620689 70.620689v388.413794a70.62069 70.62069 0 0 1-70.620689 70.620689H317.793103a70.62069 70.62069 0 0 1-70.620689-70.620689V317.793103a70.62069 70.62069 0 0 1 70.620689-70.620689h388.413794z m0 52.965517H317.793103a17.655172 17.655172 0 0 0-17.372689 14.477241L300.137931 317.793103v388.413794a17.655172 17.655172 0 0 0 14.477241 17.372689L317.793103 723.862069h388.413794a17.655172 17.655172 0 0 0 17.372689-14.477241L723.862069 706.206897V317.793103a17.655172 17.655172 0 0 0-14.477241-17.372689L706.206897 300.137931z"
+                        fill="#2c2c2c" p-id="4436"></path>
+                    <path
+                        d="M477.925517 279.375448h59.003586v178.034759h-58.968275zM477.925517 577.536h59.003586v196.184276h-58.968275zM754.582069 485.41131v61.581242h-459.034483v-61.581242z"
+                        fill="#2c2c2c" p-id="4437"></path>
+                </svg></el-icon>
+            <template #title>池化</template>
         </el-menu-item>
-        <el-menu-item index="3" disabled>
+        <el-menu-item index="3">
             <el-icon>
-                <document />
+                <svg t="1726279891336" class="icon" viewBox="0 0 1024 1024" version="1.1"
+                    xmlns="http://www.w3.org/2000/svg" p-id="7302" width="200" height="200">
+                    <path
+                        d="M553.557 669.163c-82.197 105.386-223.85 117.973-299.776 95.253-74.944-22.25-137.301-72.043-174.528-141.184-37.717-68.65-45.93-147.947-23.68-223.381 44.459-150.848 203.52-237.867 362.603-198.23 124.267 30.934 200.17 126.678 232.085 292.992l0.491 1.451c0.47 1.92 32.384 208.384 150.357 208.384a106.88 106.88 0 0 0 106.859-106.837 106.88 106.88 0 0 0-106.859-106.88c-20.309 0-47.381 4.373-72.533 22.741l-42.048-104.917c56.555 5.333 80.747 7.253 114.581 9.664 102.016 8.234 179.371 80.256 179.371 179.392a179.307 179.307 0 0 1-179.37 179.37c-176.96 0-219.03-249.962-221.931-269.312-34.326-179.84-118.443-220.48-178.411-235.456-121.344-30.464-242.71 34.816-276.053 148.907-16.939 56.576-10.176 116.523 17.877 168.256 28.032 51.733 74.944 89.45 131.499 106.368 66.73 19.84 201.13 2.432 254.336-125.227"
+                        fill="#583ACA" p-id="7303"></path>
+                </svg>
             </el-icon>
-            <template #title>Navigator Three</template>
-        </el-menu-item>
-        <el-menu-item index="4">
-            <el-icon>
-                <setting />
-            </el-icon>
-            <template #title>Navigator Four</template>
+            <template #title>
+                激活函数
+            </template>
         </el-menu-item>
     </el-menu>
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
-import {
-    Document,
-    Menu as IconMenu,
-    Location,
-    Setting,
-} from '@element-plus/icons-vue'
+import { computed} from 'vue'
+import { useMenuStore } from '../../store/useMenuStore';
 
-const isCollapse = ref(true)
+const menuStore = useMenuStore()
+const isCollapse = computed({
+  get: () => menuStore.isCollapse,
+  set: (value) => menuStore.setCollapse(value)
+});
+
 const handleOpen = (key: string, keyPath: string[]) => {
     console.log(key, keyPath)
 }
