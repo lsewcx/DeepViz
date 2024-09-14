@@ -1,37 +1,50 @@
 <template>
+    <div class="slider-demo-block">
+        <span class="demonstration">padding</span>
+        <el-slider v-model="paddingZeros" :min="0" :max="3" @input="updateConvolution" class="small-slider" />
+    </div>
+    <div class="slider-demo-block">
+        <span class="demonstration">step</span>
+        <el-slider v-model="step" :min="1" :max="3" @input="updateConvolution" class="small-slider" />
+    </div>
     <div ref="convContainer" class="conv-container"></div>
     <div ref="formulaContainer" class="formula-container"></div>
 </template>
 
 <script lang="ts" setup>
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, watch } from 'vue';
 import * as d3 from 'd3';
 
 const convContainer = ref(null);
 const formulaContainer = ref(null);
+const paddingZeros = ref(1); // 默认填充0的数量
+const step = ref(1); // 默认步长
 
-onMounted(() => {
-    const data = [
-        [1, 2, 4, 6],
-        [4, 5, 6, 7],
-        [7, 8, 9, 8]
-    ];
-    
-    const kernel = [
-        [1, 1],
-        [1, 2]
-    ];
+const data = [
+    [1, 2, 4, 6],
+    [4, 5, 6, 7],
+    [7, 8, 9, 8]
+];
 
-    const cellSize = 50;
-    const padding = 5;
-    const paddingZeros = 1; // 填充0的数量
-    const step = 2; // 步长
+const kernel = [
+    [1, 1],
+    [1, 2]
+];
+
+const cellSize = 50;
+const padding = 5;
+
+const updateConvolution = () => {
+    if (!convContainer.value) return;
+
+    // 清空之前的内容
+    d3.select(convContainer.value).selectAll('*').remove();
 
     // 在数据矩阵周围添加填充0
-    const paddedData = Array.from({ length: data.length + 2 * paddingZeros }, (_, i) => 
-        Array.from({ length: data[0].length + 2 * paddingZeros }, (_, j) => 
-            (i >= paddingZeros && i < data.length + paddingZeros && j >= paddingZeros && j < data[0].length + paddingZeros) 
-                ? data[i - paddingZeros][j - paddingZeros] 
+    const paddedData = Array.from({ length: data.length + 2 * paddingZeros.value }, (_, i) =>
+        Array.from({ length: data[0].length + 2 * paddingZeros.value }, (_, j) =>
+            (i >= paddingZeros.value && i < data.length + paddingZeros.value && j >= paddingZeros.value && j < data[0].length + paddingZeros.value)
+                ? data[i - paddingZeros.value][j - paddingZeros.value]
                 : 0
         )
     );
@@ -41,8 +54,8 @@ onMounted(() => {
     const kernelHeight = kernel.length;
     const kernelWidth = kernel[0].length;
 
-    const resultHeight = Math.floor((dataHeight - kernelHeight) / step) + 1;
-    const resultWidth = Math.floor((dataWidth - kernelWidth) / step) + 1;
+    const resultHeight = Math.floor((dataHeight - kernelHeight) / step.value) + 1;
+    const resultWidth = Math.floor((dataWidth - kernelWidth) / step.value) + 1;
 
     const result = Array.from({ length: resultHeight }, () => Array(resultWidth).fill(0));
 
@@ -129,8 +142,8 @@ onMounted(() => {
         .text(d => d);
 
     const animateConvolution = async () => {
-        for (let i = 0; i <= dataHeight - kernelHeight; i += step) {
-            for (let j = 0; j <= dataWidth - kernelWidth; j += step) {
+        for (let i = 0; i <= dataHeight - kernelHeight; i += step.value) {
+            for (let j = 0; j <= dataWidth - kernelWidth; j += step.value) {
                 let sum = 0;
                 let formula = '';
                 for (let ki = 0; ki < kernel.length; ki++) {
@@ -142,7 +155,7 @@ onMounted(() => {
                     }
                 }
                 formula = formula.slice(0, -3);
-                result[Math.floor(i / step)][Math.floor(j / step)] = sum;
+                result[Math.floor(i / step.value)][Math.floor(j / step.value)] = sum;
 
                 d3.select(formulaContainer.value).text(`公式: ${formula} = ${sum}`);
 
@@ -164,7 +177,7 @@ onMounted(() => {
                     .attr('fill', (d, index) => {
                         const x = index % result[0].length;
                         const y = Math.floor(index / result[0].length);
-                        if (x === Math.floor(j / step) && y === Math.floor(i / step)) {
+                        if (x === Math.floor(j / step.value) && y === Math.floor(i / step.value)) {
                             return 'orange';
                         }
                         return 'lightcoral';
@@ -177,23 +190,54 @@ onMounted(() => {
     };
 
     animateConvolution();
+};
+
+onMounted(() => {
+    updateConvolution();
 });
 </script>
 
 <style scoped>
+.slider-demo-block {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.demonstration {
+    margin-right: 10px;
+}
+
+.small-slider {
+    width: 200px; /* 调整滑块的宽度 */
+    height: 10px; /* 调整滑块的高度 */
+}
+
+.el-slider__runway {
+    height: 10px !important; /* 强制调整滑块轨道的高度 */
+}
+
+.el-slider__thumb {
+    width: 14px !important; /* 强制调整滑块拇指的宽度 */
+    height: 14px !important; /* 强制调整滑块拇指的高度 */
+}
+
 .conv-container {
     display: flex;
     justify-content: center;
     align-items: center;
     margin-top: 10px;
     width: 100%;
-    height: 80vh; /* 调整高度以适应新的结果矩阵 */
-    overflow: auto; /* 允许滚动以防止内容被遮挡 */
+    height: 80vh;
+    /* 调整高度以适应新的结果矩阵 */
+    overflow: auto;
+    /* 允许滚动以防止内容被遮挡 */
 }
 
 .formula-container {
     text-align: center;
-    margin-top: 5px; /* 减少上边距 */
+    margin-top: 5px;
+    /* 减少上边距 */
     font-size: 18px;
     font-weight: bold;
 }
