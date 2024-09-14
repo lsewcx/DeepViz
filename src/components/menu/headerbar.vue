@@ -21,19 +21,27 @@
                         fill="#303030" p-id="1571"></path>
                 </svg>
             </template>
-            <el-menu-item index="2-1">简体中文</el-menu-item>
-            <el-menu-item index="2-2">English</el-menu-item>
+            <el-menu-item index="2-1" @click="changeLanguage('zh')">简体中文</el-menu-item>
+            <el-menu-item index="2-2" @click="changeLanguage('en')">English</el-menu-item>
         </el-sub-menu>
     </el-menu>
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { ref } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { useLanguageStore } from '../../store/useLanguageStore';
 
-const activeIndex = ref('1')
+const { locale } = useI18n();
+const languageStore = useLanguageStore();
+const activeIndex = ref('1');
 const handleSelect = (key: string, keyPath: string[]) => {
-    console.log(key, keyPath)
-}
+  console.log(key, keyPath);
+};
+const changeLanguage = (lang: string) => {
+  languageStore.setLocale(lang);
+  locale.value = lang;
+};
 </script>
 
 <style>

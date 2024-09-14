@@ -1,0 +1,21 @@
+export const en ={
+    'Conv': ' Conv',
+    'Conv2d': 'Conv2d',
+    'Conv3d': 'Conv3d',
+    'pooling': 'pooling',
+    'maxpooling': 'maxpooling',
+    'avgpooling': 'avgpooling',
+    'GlobalPooling': 'GlobalPooling',
+    'fc': 'fc',
+    'dropout': 'dropout',
+    'softmax': 'softmax',
+    'relu': 'relu',
+    'sigmoid': 'sigmoid',
+    'Activation': 'Activation',
+    'tanh': 'tanh',
+    'elu': 'elu',
+    'selu': 'selu',
+    'leakyrelu': 'leakyrelu',
+    'prelu': 'prelu',
+    'rrelu': 'rrelu'
+}

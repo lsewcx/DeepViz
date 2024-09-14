@@ -1,0 +1,21 @@
+export const zh ={
+    'Conv': '卷积',
+    'Conv2d': '二维卷积',
+    'Conv3d': '三维卷积',
+    'pooling': '池化',
+    'maxpooling': '最大池化',
+    'avgpooling': '平均池化',
+    'GlobalPooling': '全局池化',
+    'fc': '全连接',
+    'Activation': '激活函数',
+    'dropout': 'dropout',
+    'softmax': 'softmax',
+    'relu': 'relu',
+    'sigmoid': 'sigmoid',
+    'tanh': 'tanh',
+    'elu': 'elu',
+    'selu': 'selu',
+    'leakyrelu': 'leakyrelu',
+    'prelu': 'prelu',
+    'rrelu': 'rrelu'
+}

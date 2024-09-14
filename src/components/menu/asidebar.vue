@@ -18,12 +18,12 @@
                             fill="#333333" p-id="3324"></path>
                     </svg>
                 </el-icon>
-                <span>卷积</span>
+                <span>{{ $t('Conv') }}</span>
             </template>
             <el-menu-item-group>
                 <template #title>
                 </template>
-                <el-menu-item index="/conv/conv2d">二维卷积</el-menu-item>
+                <el-menu-item index="/conv/conv2d">{{ $t('Conv2d') }}</el-menu-item>
                 <el-menu-item index="1-2">item two</el-menu-item>
             </el-menu-item-group>
             <el-menu-item-group title="Group Two">
@@ -50,7 +50,7 @@
                         d="M477.925517 279.375448h59.003586v178.034759h-58.968275zM477.925517 577.536h59.003586v196.184276h-58.968275zM754.582069 485.41131v61.581242h-459.034483v-61.581242z"
                         fill="#2c2c2c" p-id="4437"></path>
                 </svg></el-icon>
-            <template #title>池化</template>
+            <template #title>{{ $t('pooling') }}</template>
         </el-menu-item>
         <el-menu-item index="3">
             <el-icon>
@@ -62,7 +62,7 @@
                 </svg>
             </el-icon>
             <template #title>
-                激活函数
+                {{ $t('Activation') }}
             </template>
         </el-menu-item>
     </el-menu>
