@@ -32,7 +32,7 @@
                 <template #title>
                 </template>
                 <el-menu-item index="/conv/conv2d">{{ $t('Conv2d') }}</el-menu-item>
-                <el-menu-item index="1-2">item two</el-menu-item>
+                <el-menu-item index="/conv/conv3d">{{ $t('Conv3d') }}</el-menu-item>
             </el-menu-item-group>
             <el-menu-item-group title="Group Two">
                 <el-menu-item index="1-3">item three</el-menu-item>
