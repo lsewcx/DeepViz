@@ -1,4 +1,5 @@
 export const zh ={
+    'Home': '首页',
     'Conv': '卷积',
     'Conv2d': '二维卷积',
     'Conv3d': '三维卷积',

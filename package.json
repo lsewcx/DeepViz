@@ -11,9 +11,11 @@
   "dependencies": {
     "@element-plus/icons-vue": "^2.3.1",
     "@types/d3": "^7.4.3",
+    "@types/three": "^0.168.0",
     "d3": "^7.9.0",
     "element-plus": "^2.8.3",
     "pinia": "^2.2.2",
+    "three": "^0.168.0",
     "vue": "^3.4.37",
     "vue-i18n": "10",
     "vue-router": "4"

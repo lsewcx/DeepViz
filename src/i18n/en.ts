@@ -1,4 +1,5 @@
 export const en ={
+    'Home': 'Home',
     'Conv': ' Conv',
     'Conv2d': 'Conv2d',
     'Conv3d': 'Conv3d',

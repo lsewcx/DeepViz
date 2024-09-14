@@ -5,6 +5,14 @@
     </el-radio-group>
     <el-menu default-active="2" class="el-menu-vertical-demo" :collapse="isCollapse" @open="handleOpen"
         @close="handleClose" :router="true">
+        <el-menu-item index="/">
+            <el-icon>
+                <House />
+            </el-icon>
+            <template #title>
+                {{ $t('Home') }}
+            </template>
+        </el-menu-item>
         <el-sub-menu index="1">
             <template #title>
                 <el-icon>
@@ -69,13 +77,14 @@
 </template>
 
 <script lang="ts" setup>
-import { computed} from 'vue'
+import { computed } from 'vue'
 import { useMenuStore } from '../../store/useMenuStore';
+import { House } from '@element-plus/icons-vue';
 
 const menuStore = useMenuStore()
 const isCollapse = computed({
-  get: () => menuStore.isCollapse,
-  set: (value) => menuStore.setCollapse(value)
+    get: () => menuStore.isCollapse,
+    set: (value) => menuStore.setCollapse(value)
 });
 
 const handleOpen = (key: string, keyPath: string[]) => {
