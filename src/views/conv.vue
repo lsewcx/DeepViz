@@ -22,7 +22,7 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, ref } from 'vue';
+import { nextTick, onMounted, ref } from 'vue';
 import * as d3 from 'd3';
 
 const convContainer = ref(null);
@@ -30,19 +30,35 @@ const formulaContainer = ref(null);
 const paddingZeros = ref(1); // 默认填充0的数量
 const step = ref(1); // 默认步长
 
-const data = [
+const data = ref([
     [1, 2, 4, 6],
     [4, 5, 6, 7],
     [7, 8, 9, 8]
-];
+]);
 
-const kernel = [
+const kernel = ref([
     [1, 1],
     [1, 2]
-];
+]);
 
 const cellSize = 50;
 const padding = 5;
+
+const popoverType = ref(''); // 'data' or 'kernel'
+const popoverRow = ref(0);
+const popoverCol = ref(0);
+
+const updateValue = (type, row, col, value) => {
+    const newValue = parseFloat(prompt(`请输入新的值 (当前值: ${value})`, value));
+    if (!isNaN(newValue)) {
+        if (type === 'data') {
+            data.value[row][col] = newValue;
+        } else if (type === 'kernel') {
+            kernel.value[row][col] = newValue;
+        }
+        updateConvolution();
+    }
+};
 
 const updateConvolution = () => {
     if (!convContainer.value) return;
@@ -51,26 +67,26 @@ const updateConvolution = () => {
     d3.select(convContainer.value).selectAll('*').remove();
 
     // 在数据矩阵周围添加填充0
-    const paddedData = Array.from({ length: data.length + 2 * paddingZeros.value }, (_, i) =>
-        Array.from({ length: data[0].length + 2 * paddingZeros.value }, (_, j) =>
-            (i >= paddingZeros.value && i < data.length + paddingZeros.value && j >= paddingZeros.value && j < data[0].length + paddingZeros.value)
-                ? data[i - paddingZeros.value][j - paddingZeros.value]
+    const paddedData = Array.from({ length: data.value.length + 2 * paddingZeros.value }, (_, i) =>
+        Array.from({ length: data.value[0].length + 2 * paddingZeros.value }, (_, j) =>
+            (i >= paddingZeros.value && i < data.value.length + paddingZeros.value && j >= paddingZeros.value && j < data.value[0].length + paddingZeros.value)
+                ? data.value[i - paddingZeros.value][j - paddingZeros.value]
                 : 0
         )
     );
 
     const dataHeight = paddedData.length;
     const dataWidth = paddedData[0].length;
-    const kernelHeight = kernel.length;
-    const kernelWidth = kernel[0].length;
+    const kernelHeight = kernel.value.length;
+    const kernelWidth = kernel.value[0].length;
 
     const resultHeight = Math.floor((dataHeight - kernelHeight) / step.value) + 1;
     const resultWidth = Math.floor((dataWidth - kernelWidth) / step.value) + 1;
 
     const result = Array.from({ length: resultHeight }, () => Array(resultWidth).fill(0));
 
-    const svgWidth = (paddedData[0].length + kernel[0].length + result[0].length + 2) * (cellSize + padding);
-    const svgHeight = Math.max(paddedData.length, kernel.length, result.length) * (cellSize + padding) + padding;
+    const svgWidth = (paddedData[0].length + kernel.value[0].length + result[0].length + 2) * (cellSize + padding);
+    const svgHeight = Math.max(paddedData.length, kernel.value.length, result.length) * (cellSize + padding) + padding;
 
     const container = d3.select(convContainer.value);
     const svg = container.append('svg')
@@ -102,34 +118,46 @@ const updateConvolution = () => {
         .attr('y', (d, i) => Math.floor(i / paddedData[0].length) * (cellSize + padding) + cellSize / 2)
         .attr('dy', '.35em')
         .attr('text-anchor', 'middle')
-        .text(d => d);
+        .text(d => d)
+        .on('click', function (event, d) {
+            const index = paddedData.flat().indexOf(d);
+            const row = Math.floor(index / paddedData[0].length);
+            const col = index % paddedData[0].length;
+            updateValue('data', row - paddingZeros.value, col - paddingZeros.value, d);
+        });
 
     const kernelGroup = svg.append('g')
         .attr('transform', `translate(${(paddedData[0].length + 1) * (cellSize + padding)}, ${padding})`);
 
     kernelGroup.selectAll('rect')
-        .data(kernel.flat())
+        .data(kernel.value.flat())
         .enter()
         .append('rect')
-        .attr('x', (d, i) => (i % kernel[0].length) * (cellSize + padding))
-        .attr('y', (d, i) => Math.floor(i / kernel[0].length) * (cellSize + padding))
+        .attr('x', (d, i) => (i % kernel.value[0].length) * (cellSize + padding))
+        .attr('y', (d, i) => Math.floor(i / kernel.value[0].length) * (cellSize + padding))
         .attr('width', cellSize)
         .attr('height', cellSize)
         .attr('fill', 'lightgreen')
         .attr('stroke', 'black');
 
     kernelGroup.selectAll('text')
-        .data(kernel.flat())
+        .data(kernel.value.flat())
         .enter()
         .append('text')
-        .attr('x', (d, i) => (i % kernel[0].length) * (cellSize + padding) + cellSize / 2)
-        .attr('y', (d, i) => Math.floor(i / kernel[0].length) * (cellSize + padding) + cellSize / 2)
+        .attr('x', (d, i) => (i % kernel.value[0].length) * (cellSize + padding) + cellSize / 2)
+        .attr('y', (d, i) => Math.floor(i / kernel.value[0].length) * (cellSize + padding) + cellSize / 2)
         .attr('dy', '.35em')
         .attr('text-anchor', 'middle')
-        .text(d => d);
+        .text(d => d)
+        .on('click', function (event, d) {
+            const index = kernel.value.flat().indexOf(d);
+            const row = Math.floor(index / kernel.value[0].length);
+            const col = index % kernel.value[0].length;
+            updateValue('kernel', row, col, d);
+        });
 
     const resultGroup = svg.append('g')
-        .attr('transform', `translate(${(paddedData[0].length + kernel[0].length + 2) * (cellSize + padding)}, ${padding})`);
+        .attr('transform', `translate(${(paddedData[0].length + kernel.value[0].length + 2) * (cellSize + padding)}, ${padding})`);
 
     resultGroup.selectAll('rect')
         .data(result.flat().map((d, i) => ({ value: d, index: i })))
@@ -179,7 +207,7 @@ const updateConvolution = () => {
             for (let i = 0; i < kernelHeight; i++) {
                 for (let j = 0; j < kernelWidth; j++) {
                     const inputValue = paddedData[inputStartY + i][inputStartX + j];
-                    const kernelValue = kernel[i][j];
+                    const kernelValue = kernel.value[i][j];
                     formula += `${inputValue} * ${kernelValue} + `;
                 }
             }
@@ -209,10 +237,10 @@ const updateConvolution = () => {
             for (let j = 0; j <= dataWidth - kernelWidth; j += step.value) {
                 let sum = 0;
                 let formula = '';
-                for (let ki = 0; ki < kernel.length; ki++) {
-                    for (let kj = 0; kj < kernel[0].length; kj++) {
+                for (let ki = 0; ki < kernel.value.length; ki++) {
+                    for (let kj = 0; kj < kernel.value[0].length; kj++) {
                         const dataValue = paddedData[i + ki][j + kj];
-                        const kernelValue = kernel[ki][kj];
+                        const kernelValue = kernel.value[ki][kj];
                         sum += dataValue * kernelValue;
                         formula += `${dataValue} * ${kernelValue} + `;
                     }
@@ -229,7 +257,7 @@ const updateConvolution = () => {
                     .attr('fill', (d, index) => {
                         const x = index % paddedData[0].length;
                         const y = Math.floor(index / paddedData[0].length);
-                        if (x >= j && x < j + kernel[0].length && y >= i && y < i + kernel.length) {
+                        if (x >= j && x < j + kernel.value[0].length && y >= i && y < i + kernel.value.length) {
                             return 'orange';
                         }
                         return 'lightblue';
@@ -262,6 +290,7 @@ onMounted(() => {
 });
 </script>
 
+
 <style scoped>
 .slider-demo-block {
     display: flex;
@@ -275,21 +304,16 @@ onMounted(() => {
 
 .small-slider {
     width: 200px;
-    /* 调整滑块的宽度 */
     height: 10px;
-    /* 调整滑块的高度 */
 }
 
 .el-slider__runway {
     height: 10px !important;
-    /* 强制调整滑块轨道的高度 */
 }
 
 .el-slider__thumb {
     width: 14px !important;
-    /* 强制调整滑块拇指的宽度 */
     height: 14px !important;
-    /* 强制调整滑块拇指的高度 */
 }
 
 .conv-container {
@@ -299,16 +323,22 @@ onMounted(() => {
     margin-top: 10px;
     width: 100%;
     height: 80vh;
-    /* 调整高度以适应新的结果矩阵 */
     overflow: auto;
-    /* 允许滚动以防止内容被遮挡 */
 }
 
 .formula-container {
     text-align: center;
     margin-top: 5px;
-    /* 减少上边距 */
     font-size: 18px;
     font-weight: bold;
+}
+
+/* 新增样式 */
+.popover-container {
+    position: relative;
+}
+
+.popover-content {
+    position: absolute;
 }
 </style>
