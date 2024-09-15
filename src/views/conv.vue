@@ -22,7 +22,7 @@
 </template>
 
 <script lang="ts" setup>
-import { nextTick, onMounted, ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import * as d3 from 'd3';
 
 const convContainer = ref(null);
@@ -44,9 +44,6 @@ const kernel = ref([
 const cellSize = 50;
 const padding = 5;
 
-const popoverType = ref(''); // 'data' or 'kernel'
-const popoverRow = ref(0);
-const popoverCol = ref(0);
 
 const updateValue = (type, row, col, value) => {
     const newValue = parseFloat(prompt(`请输入新的值 (当前值: ${value})`, value));
@@ -181,11 +178,6 @@ const updateConvolution = () => {
             // 计算点击的块在输入矩阵中的对应位置
             const inputStartX = resultX * step.value;
             const inputStartY = resultY * step.value;
-
-            // 计算卷积核的边界
-            const kernelEndX = kernelWidth;
-            const kernelEndY = kernelHeight;
-
             // 计算输入矩阵中需要高亮显示的区域
             for (let i = 0; i < kernelHeight; i++) {
                 for (let j = 0; j < kernelWidth; j++) {
