@@ -18,5 +18,6 @@ export const zh ={
     'selu': 'selu',
     'leakyrelu': 'leakyrelu',
     'prelu': 'prelu',
-    'rrelu': 'rrelu'
+    'rrelu': 'rrelu',
+    'classification': '分类',
 }

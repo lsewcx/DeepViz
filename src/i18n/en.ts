@@ -18,5 +18,6 @@ export const en ={
     'selu': 'selu',
     'leakyrelu': 'leakyrelu',
     'prelu': 'prelu',
-    'rrelu': 'rrelu'
+    'rrelu': 'rrelu',
+    'classification': 'classification',
 }
