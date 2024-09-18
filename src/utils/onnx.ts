@@ -17,6 +17,7 @@ export async function loadModel(modelUrl: string) {
     const endTime = performance.now();
     console.log(`InferenceSession created successfully in ${(endTime - startTime).toFixed(2)} ms`);
 
+    
 
   } catch (error) {
     console.error('Failed to load the model:', error);
