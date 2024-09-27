@@ -16,9 +16,7 @@ export async function loadModel(modelUrl: string) {
     const session = await ort.InferenceSession.create(modelUrl, { executionProviders: ['cpu'] });
     const endTime = performance.now();
     console.log(`InferenceSession created successfully in ${(endTime - startTime).toFixed(2)} ms`);
-
     
-
   } catch (error) {
     console.error('Failed to load the model:', error);
   }
