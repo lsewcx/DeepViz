@@ -6,16 +6,27 @@
       </Panel>
       <Controls />
     </VueFlow>
-    <el-drawer
-      title="节点详情"
-      :model-value="drawerVisible"
-      direction="rtl"
-      size="30%"
-      @close="drawerVisible = false"
-    >
-      <p><strong>名称:</strong> {{ selectedNode?.data.label }}</p>
-      <p><strong>类型:</strong> {{ selectedNode?.type }}</p>
-      <p><strong>位置:</strong> ({{ selectedNode?.position.x }}, {{ selectedNode?.position.y }})</p>
+    <el-drawer title="节点详情" :model-value="drawerVisible" direction="rtl" size="30%" @close="drawerVisible = false">
+      <el-descriptions v-if="nodeDetails" border :column="1">
+        <el-descriptions-item label="名称">
+          {{ selectedNode?.data.label }}
+        </el-descriptions-item>
+        <el-descriptions-item label="类型">
+          {{ selectedNode?.type }}
+        </el-descriptions-item>
+        <template v-for="(value, key) in nodeDetails.parameters" :key="key">
+          <el-descriptions-item v-if="key !== 'bias'" :label="key">
+            {{ Array.isArray(value) ? value.join(', ') : value }}
+          </el-descriptions-item>
+          <el-descriptions-item v-else :label="key">
+            <el-collapse>
+              <el-collapse-item title="点击展开">
+                {{ value.join(', ') }}
+              </el-collapse-item>
+            </el-collapse>
+          </el-descriptions-item>
+        </template>
+      </el-descriptions>
     </el-drawer>
   </div>
 </template>
@@ -29,7 +40,7 @@ import { ref, onMounted } from 'vue'
 import { Background, Panel, PanelPosition, Controls } from '@vue-flow/additional-components'
 import { VueFlow, useVueFlow } from '@vue-flow/core'
 import axios from 'axios'
-import { ElDrawer } from 'element-plus'
+import { ElDrawer, ElDescriptions, ElDescriptionsItem, ElCollapse, ElCollapseItem } from 'element-plus'
 
 const modelLayers = ref([])
 
@@ -82,11 +93,16 @@ onMounted(() => {
 const elements = ref([])
 const drawerVisible = ref(false)
 const selectedNode = ref(null)
+const nodeDetails = ref(null)
 
 const onNodeClick = (event) => {
   console.log('Node clicked:', event.node) // 添加日志以调试
   selectedNode.value = event.node
   drawerVisible.value = true
+
+  // 获取节点详细信息
+  const nodeName = event.node.data.label
+  nodeDetails.value = modelLayers.value[nodeName]
 }
 </script>
 
