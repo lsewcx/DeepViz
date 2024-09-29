@@ -1,8 +1,99 @@
 {
-    "conv1": {
+    "encoder": {
+        "type": "ResNetEncoder",
+        "parameters": {
+            "out_channels": [
+                3,
+                64,
+                64,
+                128,
+                256,
+                512
+            ],
+            "depth": "N/A",
+            "kwargs": "N/A"
+        }
+    },
+    "encoder.conv1": {
         "type": "Conv2d",
         "parameters": {
-            "in_channels": 1,
+            "in_channels": 3,
+            "out_channels": 64,
+            "kernel_size": [
+                7,
+                7
+            ],
+            "stride": [
+                2,
+                2
+            ],
+            "padding": [
+                3,
+                3
+            ],
+            "dilation": [
+                1,
+                1
+            ],
+            "groups": 1,
+            "bias": null,
+            "padding_mode": "zeros",
+            "device": "N/A",
+            "dtype": "N/A"
+        }
+    },
+    "encoder.bn1": {
+        "type": "BatchNorm2d",
+        "parameters": {
+            "num_features": 64,
+            "eps": 1e-05,
+            "momentum": 0.1,
+            "affine": true,
+            "track_running_stats": true,
+            "device": "N/A",
+            "dtype": "N/A"
+        }
+    },
+    "encoder.relu": {
+        "type": "ReLU",
+        "parameters": {
+            "inplace": true
+        }
+    },
+    "encoder.maxpool": {
+        "type": "MaxPool2d",
+        "parameters": {
+            "kernel_size": 3,
+            "stride": 2,
+            "padding": 1,
+            "dilation": 1,
+            "return_indices": false,
+            "ceil_mode": false
+        }
+    },
+    "encoder.layer1": {
+        "type": "Sequential",
+        "parameters": {
+            "args": "N/A"
+        }
+    },
+    "encoder.layer1.0": {
+        "type": "BasicBlock",
+        "parameters": {
+            "inplanes": "N/A",
+            "planes": "N/A",
+            "stride": 1,
+            "downsample": null,
+            "groups": "N/A",
+            "base_width": "N/A",
+            "dilation": "N/A",
+            "norm_layer": "N/A"
+        }
+    },
+    "encoder.layer1.0.conv1": {
+        "type": "Conv2d",
+        "parameters": {
+            "in_channels": 64,
             "out_channels": 64,
             "kernel_size": [
                 3,
@@ -21,81 +112,238 @@
                 1
             ],
             "groups": 1,
-            "bias": [
-                -0.32552069425582886,
-                -0.22923868894577026,
-                -0.07618740946054459,
-                0.0697900652885437,
-                -0.1946667581796646,
-                -0.015698377043008804,
-                -0.2245474010705948,
-                0.03489501029253006,
-                -0.006680409889668226,
-                0.01865677535533905,
-                -0.09777248650789261,
-                0.06867663562297821,
-                -0.01396732684224844,
-                0.20389403402805328,
-                0.026936247944831848,
-                0.0014162604929879308,
-                -0.09615244716405869,
-                -0.18862950801849365,
-                0.0739889144897461,
-                -0.18885892629623413,
-                -0.1582556962966919,
-                -0.15720467269420624,
-                0.2248663604259491,
-                -0.014078201726078987,
-                0.15651674568653107,
-                -0.20838181674480438,
-                -0.25969022512435913,
-                0.054071955382823944,
-                0.1512281894683838,
-                -0.10862547159194946,
-                -0.2546621859073639,
-                -0.030263183638453484,
-                -0.28537020087242126,
-                -0.034034617245197296,
-                -0.23638035356998444,
-                -0.02689911425113678,
-                -0.2676630914211273,
-                -0.26117104291915894,
-                -0.17524780333042145,
-                -0.15748624503612518,
-                -0.10523845255374908,
-                -0.14351125061511993,
-                -0.05023762211203575,
-                0.04295773059129715,
-                -0.025271663442254066,
-                -0.2974010705947876,
-                -0.17288373410701752,
-                -0.04855761677026749,
-                -0.02627289481461048,
-                0.09074752777814865,
-                -0.01751028187572956,
-                -0.20273733139038086,
-                -0.02677551843225956,
-                -0.28981637954711914,
-                -0.3124779462814331,
-                0.06380655616521835,
-                0.014660562388598919,
-                -0.07543586194515228,
-                -0.16748644411563873,
-                -0.16296696662902832,
-                0.1811414211988449,
-                0.10948525369167328,
-                0.10930181294679642,
-                -0.016421576961874962
-            ],
+            "bias": null,
             "padding_mode": "zeros",
             "device": "N/A",
             "dtype": "N/A"
         }
     },
-    "conv2": {
+    "encoder.layer1.0.bn1": {
+        "type": "BatchNorm2d",
+        "parameters": {
+            "num_features": 64,
+            "eps": 1e-05,
+            "momentum": 0.1,
+            "affine": true,
+            "track_running_stats": true,
+            "device": "N/A",
+            "dtype": "N/A"
+        }
+    },
+    "encoder.layer1.0.relu": {
+        "type": "ReLU",
+        "parameters": {
+            "inplace": true
+        }
+    },
+    "encoder.layer1.0.conv2": {
         "type": "Conv2d",
         "parameters": {
             "in_channels": 64,
+            "out_channels": 64,
+            "kernel_size": [
+                3,
+                3
+            ],
+            "stride": [
+                1,
+                1
+            ],
+            "padding": [
+                1,
+                1
+            ],
+            "dilation": [
+                1,
+                1
+            ],
+            "groups": 1,
+            "bias": null,
+            "padding_mode": "zeros",
+            "device": "N/A",
+            "dtype": "N/A"
+        }
+    },
+    "encoder.layer1.0.bn2": {
+        "type": "BatchNorm2d",
+        "parameters": {
+            "num_features": 64,
+            "eps": 1e-05,
+            "momentum": 0.1,
+            "affine": true,
+            "track_running_stats": true,
+            "device": "N/A",
+            "dtype": "N/A"
+        }
+    },
+    "encoder.layer1.1": {
+        "type": "BasicBlock",
+        "parameters": {
+            "inplanes": "N/A",
+            "planes": "N/A",
+            "stride": 1,
+            "downsample": null,
+            "groups": "N/A",
+            "base_width": "N/A",
+            "dilation": "N/A",
+            "norm_layer": "N/A"
+        }
+    },
+    "encoder.layer1.1.conv1": {
+        "type": "Conv2d",
+        "parameters": {
+            "in_channels": 64,
+            "out_channels": 64,
+            "kernel_size": [
+                3,
+                3
+            ],
+            "stride": [
+                1,
+                1
+            ],
+            "padding": [
+                1,
+                1
+            ],
+            "dilation": [
+                1,
+                1
+            ],
+            "groups": 1,
+            "bias": null,
+            "padding_mode": "zeros",
+            "device": "N/A",
+            "dtype": "N/A"
+        }
+    },
+    "encoder.layer1.1.bn1": {
+        "type": "BatchNorm2d",
+        "parameters": {
+            "num_features": 64,
+            "eps": 1e-05,
+            "momentum": 0.1,
+            "affine": true,
+            "track_running_stats": true,
+            "device": "N/A",
+            "dtype": "N/A"
+        }
+    },
+    "encoder.layer1.1.relu": {
+        "type": "ReLU",
+        "parameters": {
+            "inplace": true
+        }
+    },
+    "encoder.layer1.1.conv2": {
+        "type": "Conv2d",
+        "parameters": {
+            "in_channels": 64,
+            "out_channels": 64,
+            "kernel_size": [
+                3,
+                3
+            ],
+            "stride": [
+                1,
+                1
+            ],
+            "padding": [
+                1,
+                1
+            ],
+            "dilation": [
+                1,
+                1
+            ],
+            "groups": 1,
+            "bias": null,
+            "padding_mode": "zeros",
+            "device": "N/A",
+            "dtype": "N/A"
+        }
+    },
+    "encoder.layer1.1.bn2": {
+        "type": "BatchNorm2d",
+        "parameters": {
+            "num_features": 64,
+            "eps": 1e-05,
+            "momentum": 0.1,
+            "affine": true,
+            "track_running_stats": true,
+            "device": "N/A",
+            "dtype": "N/A"
+        }
+    },
+    "encoder.layer2": {
+        "type": "Sequential",
+        "parameters": {
+            "args": "N/A"
+        }
+    },
+    "encoder.layer2.0": {
+        "type": "BasicBlock",
+        "parameters": {
+            "inplanes": "N/A",
+            "planes": "N/A",
+            "stride": 2,
+            "downsample": "Sequential(\n  (0): Conv2d(64, 128, kernel_size=(1, 1), stride=(2, 2), bias=False)\n  (1): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)\n)",
+            "groups": "N/A",
+            "base_width": "N/A",
+            "dilation": "N/A",
+            "norm_layer": "N/A"
+        }
+    },
+    "encoder.layer2.0.conv1": {
+        "type": "Conv2d",
+        "parameters": {
+            "in_channels": 64,
+            "out_channels": 128,
+            "kernel_size": [
+                3,
+                3
+            ],
+            "stride": [
+                2,
+                2
+            ],
+            "padding": [
+                1,
+                1
+            ],
+            "dilation": [
+                1,
+                1
+            ],
+            "groups": 1,
+            "bias": null,
+            "padding_mode": "zeros",
+            "device": "N/A",
+            "dtype": "N/A"
+        }
+    },
+    "encoder.layer2.0.bn1": {
+        "type": "BatchNorm2d",
+        "parameters": {
+            "num_features": 128,
+            "eps": 1e-05,
+            "momentum": 0.1,
+            "affine": true,
+            "track_running_stats": true,
+            "device": "N/A",
+            "dtype": "N/A"
+        }
+    },
+    "encoder.layer2.0.relu": {
+        "type": "ReLU",
+        "parameters": {
+            "inplace": true
+        }
+    },
+    "encoder.layer2.0.conv2": {
+        "type": "Conv2d",
+        "parameters": {
+            "in_channels": 128,
             "out_channels": 128,
             "kernel_size": [
                 3,
@@ -114,427 +362,1515 @@
                 1
             ],
             "groups": 1,
+            "bias": null,
+            "padding_mode": "zeros",
+            "device": "N/A",
+            "dtype": "N/A"
+        }
+    },
+    "encoder.layer2.0.bn2": {
+        "type": "BatchNorm2d",
+        "parameters": {
+            "num_features": 128,
+            "eps": 1e-05,
+            "momentum": 0.1,
+            "affine": true,
+            "track_running_stats": true,
+            "device": "N/A",
+            "dtype": "N/A"
+        }
+    },
+    "encoder.layer2.0.downsample": {
+        "type": "Sequential",
+        "parameters": {
+            "args": "N/A"
+        }
+    },
+    "encoder.layer2.0.downsample.0": {
+        "type": "Conv2d",
+        "parameters": {
+            "in_channels": 64,
+            "out_channels": 128,
+            "kernel_size": [
+                1,
+                1
+            ],
+            "stride": [
+                2,
+                2
+            ],
+            "padding": [
+                0,
+                0
+            ],
+            "dilation": [
+                1,
+                1
+            ],
+            "groups": 1,
+            "bias": null,
+            "padding_mode": "zeros",
+            "device": "N/A",
+            "dtype": "N/A"
+        }
+    },
+    "encoder.layer2.0.downsample.1": {
+        "type": "BatchNorm2d",
+        "parameters": {
+            "num_features": 128,
+            "eps": 1e-05,
+            "momentum": 0.1,
+            "affine": true,
+            "track_running_stats": true,
+            "device": "N/A",
+            "dtype": "N/A"
+        }
+    },
+    "encoder.layer2.1": {
+        "type": "BasicBlock",
+        "parameters": {
+            "inplanes": "N/A",
+            "planes": "N/A",
+            "stride": 1,
+            "downsample": null,
+            "groups": "N/A",
+            "base_width": "N/A",
+            "dilation": "N/A",
+            "norm_layer": "N/A"
+        }
+    },
+    "encoder.layer2.1.conv1": {
+        "type": "Conv2d",
+        "parameters": {
+            "in_channels": 128,
+            "out_channels": 128,
+            "kernel_size": [
+                3,
+                3
+            ],
+            "stride": [
+                1,
+                1
+            ],
+            "padding": [
+                1,
+                1
+            ],
+            "dilation": [
+                1,
+                1
+            ],
+            "groups": 1,
+            "bias": null,
+            "padding_mode": "zeros",
+            "device": "N/A",
+            "dtype": "N/A"
+        }
+    },
+    "encoder.layer2.1.bn1": {
+        "type": "BatchNorm2d",
+        "parameters": {
+            "num_features": 128,
+            "eps": 1e-05,
+            "momentum": 0.1,
+            "affine": true,
+            "track_running_stats": true,
+            "device": "N/A",
+            "dtype": "N/A"
+        }
+    },
+    "encoder.layer2.1.relu": {
+        "type": "ReLU",
+        "parameters": {
+            "inplace": true
+        }
+    },
+    "encoder.layer2.1.conv2": {
+        "type": "Conv2d",
+        "parameters": {
+            "in_channels": 128,
+            "out_channels": 128,
+            "kernel_size": [
+                3,
+                3
+            ],
+            "stride": [
+                1,
+                1
+            ],
+            "padding": [
+                1,
+                1
+            ],
+            "dilation": [
+                1,
+                1
+            ],
+            "groups": 1,
+            "bias": null,
+            "padding_mode": "zeros",
+            "device": "N/A",
+            "dtype": "N/A"
+        }
+    },
+    "encoder.layer2.1.bn2": {
+        "type": "BatchNorm2d",
+        "parameters": {
+            "num_features": 128,
+            "eps": 1e-05,
+            "momentum": 0.1,
+            "affine": true,
+            "track_running_stats": true,
+            "device": "N/A",
+            "dtype": "N/A"
+        }
+    },
+    "encoder.layer3": {
+        "type": "Sequential",
+        "parameters": {
+            "args": "N/A"
+        }
+    },
+    "encoder.layer3.0": {
+        "type": "BasicBlock",
+        "parameters": {
+            "inplanes": "N/A",
+            "planes": "N/A",
+            "stride": 2,
+            "downsample": "Sequential(\n  (0): Conv2d(128, 256, kernel_size=(1, 1), stride=(2, 2), bias=False)\n  (1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)\n)",
+            "groups": "N/A",
+            "base_width": "N/A",
+            "dilation": "N/A",
+            "norm_layer": "N/A"
+        }
+    },
+    "encoder.layer3.0.conv1": {
+        "type": "Conv2d",
+        "parameters": {
+            "in_channels": 128,
+            "out_channels": 256,
+            "kernel_size": [
+                3,
+                3
+            ],
+            "stride": [
+                2,
+                2
+            ],
+            "padding": [
+                1,
+                1
+            ],
+            "dilation": [
+                1,
+                1
+            ],
+            "groups": 1,
+            "bias": null,
+            "padding_mode": "zeros",
+            "device": "N/A",
+            "dtype": "N/A"
+        }
+    },
+    "encoder.layer3.0.bn1": {
+        "type": "BatchNorm2d",
+        "parameters": {
+            "num_features": 256,
+            "eps": 1e-05,
+            "momentum": 0.1,
+            "affine": true,
+            "track_running_stats": true,
+            "device": "N/A",
+            "dtype": "N/A"
+        }
+    },
+    "encoder.layer3.0.relu": {
+        "type": "ReLU",
+        "parameters": {
+            "inplace": true
+        }
+    },
+    "encoder.layer3.0.conv2": {
+        "type": "Conv2d",
+        "parameters": {
+            "in_channels": 256,
+            "out_channels": 256,
+            "kernel_size": [
+                3,
+                3
+            ],
+            "stride": [
+                1,
+                1
+            ],
+            "padding": [
+                1,
+                1
+            ],
+            "dilation": [
+                1,
+                1
+            ],
+            "groups": 1,
+            "bias": null,
+            "padding_mode": "zeros",
+            "device": "N/A",
+            "dtype": "N/A"
+        }
+    },
+    "encoder.layer3.0.bn2": {
+        "type": "BatchNorm2d",
+        "parameters": {
+            "num_features": 256,
+            "eps": 1e-05,
+            "momentum": 0.1,
+            "affine": true,
+            "track_running_stats": true,
+            "device": "N/A",
+            "dtype": "N/A"
+        }
+    },
+    "encoder.layer3.0.downsample": {
+        "type": "Sequential",
+        "parameters": {
+            "args": "N/A"
+        }
+    },
+    "encoder.layer3.0.downsample.0": {
+        "type": "Conv2d",
+        "parameters": {
+            "in_channels": 128,
+            "out_channels": 256,
+            "kernel_size": [
+                1,
+                1
+            ],
+            "stride": [
+                2,
+                2
+            ],
+            "padding": [
+                0,
+                0
+            ],
+            "dilation": [
+                1,
+                1
+            ],
+            "groups": 1,
+            "bias": null,
+            "padding_mode": "zeros",
+            "device": "N/A",
+            "dtype": "N/A"
+        }
+    },
+    "encoder.layer3.0.downsample.1": {
+        "type": "BatchNorm2d",
+        "parameters": {
+            "num_features": 256,
+            "eps": 1e-05,
+            "momentum": 0.1,
+            "affine": true,
+            "track_running_stats": true,
+            "device": "N/A",
+            "dtype": "N/A"
+        }
+    },
+    "encoder.layer3.1": {
+        "type": "BasicBlock",
+        "parameters": {
+            "inplanes": "N/A",
+            "planes": "N/A",
+            "stride": 1,
+            "downsample": null,
+            "groups": "N/A",
+            "base_width": "N/A",
+            "dilation": "N/A",
+            "norm_layer": "N/A"
+        }
+    },
+    "encoder.layer3.1.conv1": {
+        "type": "Conv2d",
+        "parameters": {
+            "in_channels": 256,
+            "out_channels": 256,
+            "kernel_size": [
+                3,
+                3
+            ],
+            "stride": [
+                1,
+                1
+            ],
+            "padding": [
+                1,
+                1
+            ],
+            "dilation": [
+                1,
+                1
+            ],
+            "groups": 1,
+            "bias": null,
+            "padding_mode": "zeros",
+            "device": "N/A",
+            "dtype": "N/A"
+        }
+    },
+    "encoder.layer3.1.bn1": {
+        "type": "BatchNorm2d",
+        "parameters": {
+            "num_features": 256,
+            "eps": 1e-05,
+            "momentum": 0.1,
+            "affine": true,
+            "track_running_stats": true,
+            "device": "N/A",
+            "dtype": "N/A"
+        }
+    },
+    "encoder.layer3.1.relu": {
+        "type": "ReLU",
+        "parameters": {
+            "inplace": true
+        }
+    },
+    "encoder.layer3.1.conv2": {
+        "type": "Conv2d",
+        "parameters": {
+            "in_channels": 256,
+            "out_channels": 256,
+            "kernel_size": [
+                3,
+                3
+            ],
+            "stride": [
+                1,
+                1
+            ],
+            "padding": [
+                1,
+                1
+            ],
+            "dilation": [
+                1,
+                1
+            ],
+            "groups": 1,
+            "bias": null,
+            "padding_mode": "zeros",
+            "device": "N/A",
+            "dtype": "N/A"
+        }
+    },
+    "encoder.layer3.1.bn2": {
+        "type": "BatchNorm2d",
+        "parameters": {
+            "num_features": 256,
+            "eps": 1e-05,
+            "momentum": 0.1,
+            "affine": true,
+            "track_running_stats": true,
+            "device": "N/A",
+            "dtype": "N/A"
+        }
+    },
+    "encoder.layer4": {
+        "type": "Sequential",
+        "parameters": {
+            "args": "N/A"
+        }
+    },
+    "encoder.layer4.0": {
+        "type": "BasicBlock",
+        "parameters": {
+            "inplanes": "N/A",
+            "planes": "N/A",
+            "stride": 2,
+            "downsample": "Sequential(\n  (0): Conv2d(256, 512, kernel_size=(1, 1), stride=(2, 2), bias=False)\n  (1): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)\n)",
+            "groups": "N/A",
+            "base_width": "N/A",
+            "dilation": "N/A",
+            "norm_layer": "N/A"
+        }
+    },
+    "encoder.layer4.0.conv1": {
+        "type": "Conv2d",
+        "parameters": {
+            "in_channels": 256,
+            "out_channels": 512,
+            "kernel_size": [
+                3,
+                3
+            ],
+            "stride": [
+                2,
+                2
+            ],
+            "padding": [
+                1,
+                1
+            ],
+            "dilation": [
+                1,
+                1
+            ],
+            "groups": 1,
+            "bias": null,
+            "padding_mode": "zeros",
+            "device": "N/A",
+            "dtype": "N/A"
+        }
+    },
+    "encoder.layer4.0.bn1": {
+        "type": "BatchNorm2d",
+        "parameters": {
+            "num_features": 512,
+            "eps": 1e-05,
+            "momentum": 0.1,
+            "affine": true,
+            "track_running_stats": true,
+            "device": "N/A",
+            "dtype": "N/A"
+        }
+    },
+    "encoder.layer4.0.relu": {
+        "type": "ReLU",
+        "parameters": {
+            "inplace": true
+        }
+    },
+    "encoder.layer4.0.conv2": {
+        "type": "Conv2d",
+        "parameters": {
+            "in_channels": 512,
+            "out_channels": 512,
+            "kernel_size": [
+                3,
+                3
+            ],
+            "stride": [
+                1,
+                1
+            ],
+            "padding": [
+                1,
+                1
+            ],
+            "dilation": [
+                1,
+                1
+            ],
+            "groups": 1,
+            "bias": null,
+            "padding_mode": "zeros",
+            "device": "N/A",
+            "dtype": "N/A"
+        }
+    },
+    "encoder.layer4.0.bn2": {
+        "type": "BatchNorm2d",
+        "parameters": {
+            "num_features": 512,
+            "eps": 1e-05,
+            "momentum": 0.1,
+            "affine": true,
+            "track_running_stats": true,
+            "device": "N/A",
+            "dtype": "N/A"
+        }
+    },
+    "encoder.layer4.0.downsample": {
+        "type": "Sequential",
+        "parameters": {
+            "args": "N/A"
+        }
+    },
+    "encoder.layer4.0.downsample.0": {
+        "type": "Conv2d",
+        "parameters": {
+            "in_channels": 256,
+            "out_channels": 512,
+            "kernel_size": [
+                1,
+                1
+            ],
+            "stride": [
+                2,
+                2
+            ],
+            "padding": [
+                0,
+                0
+            ],
+            "dilation": [
+                1,
+                1
+            ],
+            "groups": 1,
+            "bias": null,
+            "padding_mode": "zeros",
+            "device": "N/A",
+            "dtype": "N/A"
+        }
+    },
+    "encoder.layer4.0.downsample.1": {
+        "type": "BatchNorm2d",
+        "parameters": {
+            "num_features": 512,
+            "eps": 1e-05,
+            "momentum": 0.1,
+            "affine": true,
+            "track_running_stats": true,
+            "device": "N/A",
+            "dtype": "N/A"
+        }
+    },
+    "encoder.layer4.1": {
+        "type": "BasicBlock",
+        "parameters": {
+            "inplanes": "N/A",
+            "planes": "N/A",
+            "stride": 1,
+            "downsample": null,
+            "groups": "N/A",
+            "base_width": "N/A",
+            "dilation": "N/A",
+            "norm_layer": "N/A"
+        }
+    },
+    "encoder.layer4.1.conv1": {
+        "type": "Conv2d",
+        "parameters": {
+            "in_channels": 512,
+            "out_channels": 512,
+            "kernel_size": [
+                3,
+                3
+            ],
+            "stride": [
+                1,
+                1
+            ],
+            "padding": [
+                1,
+                1
+            ],
+            "dilation": [
+                1,
+                1
+            ],
+            "groups": 1,
+            "bias": null,
+            "padding_mode": "zeros",
+            "device": "N/A",
+            "dtype": "N/A"
+        }
+    },
+    "encoder.layer4.1.bn1": {
+        "type": "BatchNorm2d",
+        "parameters": {
+            "num_features": 512,
+            "eps": 1e-05,
+            "momentum": 0.1,
+            "affine": true,
+            "track_running_stats": true,
+            "device": "N/A",
+            "dtype": "N/A"
+        }
+    },
+    "encoder.layer4.1.relu": {
+        "type": "ReLU",
+        "parameters": {
+            "inplace": true
+        }
+    },
+    "encoder.layer4.1.conv2": {
+        "type": "Conv2d",
+        "parameters": {
+            "in_channels": 512,
+            "out_channels": 512,
+            "kernel_size": [
+                3,
+                3
+            ],
+            "stride": [
+                1,
+                1
+            ],
+            "padding": [
+                1,
+                1
+            ],
+            "dilation": [
+                1,
+                1
+            ],
+            "groups": 1,
+            "bias": null,
+            "padding_mode": "zeros",
+            "device": "N/A",
+            "dtype": "N/A"
+        }
+    },
+    "encoder.layer4.1.bn2": {
+        "type": "BatchNorm2d",
+        "parameters": {
+            "num_features": 512,
+            "eps": 1e-05,
+            "momentum": 0.1,
+            "affine": true,
+            "track_running_stats": true,
+            "device": "N/A",
+            "dtype": "N/A"
+        }
+    },
+    "decoder": {
+        "type": "UnetDecoder",
+        "parameters": {
+            "encoder_channels": "N/A",
+            "decoder_channels": "N/A",
+            "n_blocks": "N/A",
+            "use_batchnorm": "N/A",
+            "attention_type": "N/A",
+            "center": "Identity()"
+        }
+    },
+    "decoder.center": {
+        "type": "Identity",
+        "parameters": {
+            "args": "N/A",
+            "kwargs": "N/A"
+        }
+    },
+    "decoder.blocks": {
+        "type": "ModuleList",
+        "parameters": {
+            "modules": "<bound method Module.modules of ModuleList(\n  (0): DecoderBlock(\n    (conv1): Conv2dReLU(\n      (0): Conv2d(768, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)\n      (1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)\n      (2): ReLU(inplace=True)\n    )\n    (attention1): Attention(\n      (attention): Identity()\n    )\n    (conv2): Conv2dReLU(\n      (0): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)\n      (1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)\n      (2): ReLU(inplace=True)\n    )\n    (attention2): Attention(\n      (attention): Identity()\n    )\n  )\n  (1): DecoderBlock(\n    (conv1): Conv2dReLU(\n      (0): Conv2d(384, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)\n      (1): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)\n      (2): ReLU(inplace=True)\n    )\n    (attention1): Attention(\n      (attention): Identity()\n    )\n    (conv2): Conv2dReLU(\n      (0): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)\n      (1): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)\n      (2): ReLU(inplace=True)\n    )\n    (attention2): Attention(\n      (attention): Identity()\n    )\n  )\n  (2): DecoderBlock(\n    (conv1): Conv2dReLU(\n      (0): Conv2d(192, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)\n      (1): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)\n      (2): ReLU(inplace=True)\n    )\n    (attention1): Attention(\n      (attention): Identity()\n    )\n    (conv2): Conv2dReLU(\n      (0): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)\n      (1): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)\n      (2): ReLU(inplace=True)\n    )\n    (attention2): Attention(\n      (attention): Identity()\n    )\n  )\n  (3): DecoderBlock(\n    (conv1): Conv2dReLU(\n      (0): Conv2d(128, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)\n      (1): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)\n      (2): ReLU(inplace=True)\n    )\n    (attention1): Attention(\n      (attention): Identity()\n    )\n    (conv2): Conv2dReLU(\n      (0): Conv2d(32, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)\n      (1): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)\n      (2): ReLU(inplace=True)\n    )\n    (attention2): Attention(\n      (attention): Identity()\n    )\n  )\n  (4): DecoderBlock(\n    (conv1): Conv2dReLU(\n      (0): Conv2d(32, 16, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)\n      (1): BatchNorm2d(16, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)\n      (2): ReLU(inplace=True)\n    )\n    (attention1): Attention(\n      (attention): Identity()\n    )\n    (conv2): Conv2dReLU(\n      (0): Conv2d(16, 16, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)\n      (1): BatchNorm2d(16, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)\n      (2): ReLU(inplace=True)\n    )\n    (attention2): Attention(\n      (attention): Identity()\n    )\n  )\n)>"
+        }
+    },
+    "decoder.blocks.0": {
+        "type": "DecoderBlock",
+        "parameters": {
+            "in_channels": "N/A",
+            "skip_channels": "N/A",
+            "out_channels": "N/A",
+            "use_batchnorm": "N/A",
+            "attention_type": "N/A"
+        }
+    },
+    "decoder.blocks.0.conv1": {
+        "type": "Conv2dReLU",
+        "parameters": {
+            "in_channels": "N/A",
+            "out_channels": "N/A",
+            "kernel_size": "N/A",
+            "padding": "N/A",
+            "stride": "N/A",
+            "use_batchnorm": "N/A"
+        }
+    },
+    "decoder.blocks.0.conv1.0": {
+        "type": "Conv2d",
+        "parameters": {
+            "in_channels": 768,
+            "out_channels": 256,
+            "kernel_size": [
+                3,
+                3
+            ],
+            "stride": [
+                1,
+                1
+            ],
+            "padding": [
+                1,
+                1
+            ],
+            "dilation": [
+                1,
+                1
+            ],
+            "groups": 1,
+            "bias": null,
+            "padding_mode": "zeros",
+            "device": "N/A",
+            "dtype": "N/A"
+        }
+    },
+    "decoder.blocks.0.conv1.1": {
+        "type": "BatchNorm2d",
+        "parameters": {
+            "num_features": 256,
+            "eps": 1e-05,
+            "momentum": 0.1,
+            "affine": true,
+            "track_running_stats": true,
+            "device": "N/A",
+            "dtype": "N/A"
+        }
+    },
+    "decoder.blocks.0.conv1.2": {
+        "type": "ReLU",
+        "parameters": {
+            "inplace": true
+        }
+    },
+    "decoder.blocks.0.attention1": {
+        "type": "Attention",
+        "parameters": {
+            "name": "N/A",
+            "params": "N/A"
+        }
+    },
+    "decoder.blocks.0.attention1.attention": {
+        "type": "Identity",
+        "parameters": {
+            "args": "N/A",
+            "kwargs": "N/A"
+        }
+    },
+    "decoder.blocks.0.conv2": {
+        "type": "Conv2dReLU",
+        "parameters": {
+            "in_channels": "N/A",
+            "out_channels": "N/A",
+            "kernel_size": "N/A",
+            "padding": "N/A",
+            "stride": "N/A",
+            "use_batchnorm": "N/A"
+        }
+    },
+    "decoder.blocks.0.conv2.0": {
+        "type": "Conv2d",
+        "parameters": {
+            "in_channels": 256,
+            "out_channels": 256,
+            "kernel_size": [
+                3,
+                3
+            ],
+            "stride": [
+                1,
+                1
+            ],
+            "padding": [
+                1,
+                1
+            ],
+            "dilation": [
+                1,
+                1
+            ],
+            "groups": 1,
+            "bias": null,
+            "padding_mode": "zeros",
+            "device": "N/A",
+            "dtype": "N/A"
+        }
+    },
+    "decoder.blocks.0.conv2.1": {
+        "type": "BatchNorm2d",
+        "parameters": {
+            "num_features": 256,
+            "eps": 1e-05,
+            "momentum": 0.1,
+            "affine": true,
+            "track_running_stats": true,
+            "device": "N/A",
+            "dtype": "N/A"
+        }
+    },
+    "decoder.blocks.0.conv2.2": {
+        "type": "ReLU",
+        "parameters": {
+            "inplace": true
+        }
+    },
+    "decoder.blocks.0.attention2": {
+        "type": "Attention",
+        "parameters": {
+            "name": "N/A",
+            "params": "N/A"
+        }
+    },
+    "decoder.blocks.0.attention2.attention": {
+        "type": "Identity",
+        "parameters": {
+            "args": "N/A",
+            "kwargs": "N/A"
+        }
+    },
+    "decoder.blocks.1": {
+        "type": "DecoderBlock",
+        "parameters": {
+            "in_channels": "N/A",
+            "skip_channels": "N/A",
+            "out_channels": "N/A",
+            "use_batchnorm": "N/A",
+            "attention_type": "N/A"
+        }
+    },
+    "decoder.blocks.1.conv1": {
+        "type": "Conv2dReLU",
+        "parameters": {
+            "in_channels": "N/A",
+            "out_channels": "N/A",
+            "kernel_size": "N/A",
+            "padding": "N/A",
+            "stride": "N/A",
+            "use_batchnorm": "N/A"
+        }
+    },
+    "decoder.blocks.1.conv1.0": {
+        "type": "Conv2d",
+        "parameters": {
+            "in_channels": 384,
+            "out_channels": 128,
+            "kernel_size": [
+                3,
+                3
+            ],
+            "stride": [
+                1,
+                1
+            ],
+            "padding": [
+                1,
+                1
+            ],
+            "dilation": [
+                1,
+                1
+            ],
+            "groups": 1,
+            "bias": null,
+            "padding_mode": "zeros",
+            "device": "N/A",
+            "dtype": "N/A"
+        }
+    },
+    "decoder.blocks.1.conv1.1": {
+        "type": "BatchNorm2d",
+        "parameters": {
+            "num_features": 128,
+            "eps": 1e-05,
+            "momentum": 0.1,
+            "affine": true,
+            "track_running_stats": true,
+            "device": "N/A",
+            "dtype": "N/A"
+        }
+    },
+    "decoder.blocks.1.conv1.2": {
+        "type": "ReLU",
+        "parameters": {
+            "inplace": true
+        }
+    },
+    "decoder.blocks.1.attention1": {
+        "type": "Attention",
+        "parameters": {
+            "name": "N/A",
+            "params": "N/A"
+        }
+    },
+    "decoder.blocks.1.attention1.attention": {
+        "type": "Identity",
+        "parameters": {
+            "args": "N/A",
+            "kwargs": "N/A"
+        }
+    },
+    "decoder.blocks.1.conv2": {
+        "type": "Conv2dReLU",
+        "parameters": {
+            "in_channels": "N/A",
+            "out_channels": "N/A",
+            "kernel_size": "N/A",
+            "padding": "N/A",
+            "stride": "N/A",
+            "use_batchnorm": "N/A"
+        }
+    },
+    "decoder.blocks.1.conv2.0": {
+        "type": "Conv2d",
+        "parameters": {
+            "in_channels": 128,
+            "out_channels": 128,
+            "kernel_size": [
+                3,
+                3
+            ],
+            "stride": [
+                1,
+                1
+            ],
+            "padding": [
+                1,
+                1
+            ],
+            "dilation": [
+                1,
+                1
+            ],
+            "groups": 1,
+            "bias": null,
+            "padding_mode": "zeros",
+            "device": "N/A",
+            "dtype": "N/A"
+        }
+    },
+    "decoder.blocks.1.conv2.1": {
+        "type": "BatchNorm2d",
+        "parameters": {
+            "num_features": 128,
+            "eps": 1e-05,
+            "momentum": 0.1,
+            "affine": true,
+            "track_running_stats": true,
+            "device": "N/A",
+            "dtype": "N/A"
+        }
+    },
+    "decoder.blocks.1.conv2.2": {
+        "type": "ReLU",
+        "parameters": {
+            "inplace": true
+        }
+    },
+    "decoder.blocks.1.attention2": {
+        "type": "Attention",
+        "parameters": {
+            "name": "N/A",
+            "params": "N/A"
+        }
+    },
+    "decoder.blocks.1.attention2.attention": {
+        "type": "Identity",
+        "parameters": {
+            "args": "N/A",
+            "kwargs": "N/A"
+        }
+    },
+    "decoder.blocks.2": {
+        "type": "DecoderBlock",
+        "parameters": {
+            "in_channels": "N/A",
+            "skip_channels": "N/A",
+            "out_channels": "N/A",
+            "use_batchnorm": "N/A",
+            "attention_type": "N/A"
+        }
+    },
+    "decoder.blocks.2.conv1": {
+        "type": "Conv2dReLU",
+        "parameters": {
+            "in_channels": "N/A",
+            "out_channels": "N/A",
+            "kernel_size": "N/A",
+            "padding": "N/A",
+            "stride": "N/A",
+            "use_batchnorm": "N/A"
+        }
+    },
+    "decoder.blocks.2.conv1.0": {
+        "type": "Conv2d",
+        "parameters": {
+            "in_channels": 192,
+            "out_channels": 64,
+            "kernel_size": [
+                3,
+                3
+            ],
+            "stride": [
+                1,
+                1
+            ],
+            "padding": [
+                1,
+                1
+            ],
+            "dilation": [
+                1,
+                1
+            ],
+            "groups": 1,
+            "bias": null,
+            "padding_mode": "zeros",
+            "device": "N/A",
+            "dtype": "N/A"
+        }
+    },
+    "decoder.blocks.2.conv1.1": {
+        "type": "BatchNorm2d",
+        "parameters": {
+            "num_features": 64,
+            "eps": 1e-05,
+            "momentum": 0.1,
+            "affine": true,
+            "track_running_stats": true,
+            "device": "N/A",
+            "dtype": "N/A"
+        }
+    },
+    "decoder.blocks.2.conv1.2": {
+        "type": "ReLU",
+        "parameters": {
+            "inplace": true
+        }
+    },
+    "decoder.blocks.2.attention1": {
+        "type": "Attention",
+        "parameters": {
+            "name": "N/A",
+            "params": "N/A"
+        }
+    },
+    "decoder.blocks.2.attention1.attention": {
+        "type": "Identity",
+        "parameters": {
+            "args": "N/A",
+            "kwargs": "N/A"
+        }
+    },
+    "decoder.blocks.2.conv2": {
+        "type": "Conv2dReLU",
+        "parameters": {
+            "in_channels": "N/A",
+            "out_channels": "N/A",
+            "kernel_size": "N/A",
+            "padding": "N/A",
+            "stride": "N/A",
+            "use_batchnorm": "N/A"
+        }
+    },
+    "decoder.blocks.2.conv2.0": {
+        "type": "Conv2d",
+        "parameters": {
+            "in_channels": 64,
+            "out_channels": 64,
+            "kernel_size": [
+                3,
+                3
+            ],
+            "stride": [
+                1,
+                1
+            ],
+            "padding": [
+                1,
+                1
+            ],
+            "dilation": [
+                1,
+                1
+            ],
+            "groups": 1,
+            "bias": null,
+            "padding_mode": "zeros",
+            "device": "N/A",
+            "dtype": "N/A"
+        }
+    },
+    "decoder.blocks.2.conv2.1": {
+        "type": "BatchNorm2d",
+        "parameters": {
+            "num_features": 64,
+            "eps": 1e-05,
+            "momentum": 0.1,
+            "affine": true,
+            "track_running_stats": true,
+            "device": "N/A",
+            "dtype": "N/A"
+        }
+    },
+    "decoder.blocks.2.conv2.2": {
+        "type": "ReLU",
+        "parameters": {
+            "inplace": true
+        }
+    },
+    "decoder.blocks.2.attention2": {
+        "type": "Attention",
+        "parameters": {
+            "name": "N/A",
+            "params": "N/A"
+        }
+    },
+    "decoder.blocks.2.attention2.attention": {
+        "type": "Identity",
+        "parameters": {
+            "args": "N/A",
+            "kwargs": "N/A"
+        }
+    },
+    "decoder.blocks.3": {
+        "type": "DecoderBlock",
+        "parameters": {
+            "in_channels": "N/A",
+            "skip_channels": "N/A",
+            "out_channels": "N/A",
+            "use_batchnorm": "N/A",
+            "attention_type": "N/A"
+        }
+    },
+    "decoder.blocks.3.conv1": {
+        "type": "Conv2dReLU",
+        "parameters": {
+            "in_channels": "N/A",
+            "out_channels": "N/A",
+            "kernel_size": "N/A",
+            "padding": "N/A",
+            "stride": "N/A",
+            "use_batchnorm": "N/A"
+        }
+    },
+    "decoder.blocks.3.conv1.0": {
+        "type": "Conv2d",
+        "parameters": {
+            "in_channels": 128,
+            "out_channels": 32,
+            "kernel_size": [
+                3,
+                3
+            ],
+            "stride": [
+                1,
+                1
+            ],
+            "padding": [
+                1,
+                1
+            ],
+            "dilation": [
+                1,
+                1
+            ],
+            "groups": 1,
+            "bias": null,
+            "padding_mode": "zeros",
+            "device": "N/A",
+            "dtype": "N/A"
+        }
+    },
+    "decoder.blocks.3.conv1.1": {
+        "type": "BatchNorm2d",
+        "parameters": {
+            "num_features": 32,
+            "eps": 1e-05,
+            "momentum": 0.1,
+            "affine": true,
+            "track_running_stats": true,
+            "device": "N/A",
+            "dtype": "N/A"
+        }
+    },
+    "decoder.blocks.3.conv1.2": {
+        "type": "ReLU",
+        "parameters": {
+            "inplace": true
+        }
+    },
+    "decoder.blocks.3.attention1": {
+        "type": "Attention",
+        "parameters": {
+            "name": "N/A",
+            "params": "N/A"
+        }
+    },
+    "decoder.blocks.3.attention1.attention": {
+        "type": "Identity",
+        "parameters": {
+            "args": "N/A",
+            "kwargs": "N/A"
+        }
+    },
+    "decoder.blocks.3.conv2": {
+        "type": "Conv2dReLU",
+        "parameters": {
+            "in_channels": "N/A",
+            "out_channels": "N/A",
+            "kernel_size": "N/A",
+            "padding": "N/A",
+            "stride": "N/A",
+            "use_batchnorm": "N/A"
+        }
+    },
+    "decoder.blocks.3.conv2.0": {
+        "type": "Conv2d",
+        "parameters": {
+            "in_channels": 32,
+            "out_channels": 32,
+            "kernel_size": [
+                3,
+                3
+            ],
+            "stride": [
+                1,
+                1
+            ],
+            "padding": [
+                1,
+                1
+            ],
+            "dilation": [
+                1,
+                1
+            ],
+            "groups": 1,
+            "bias": null,
+            "padding_mode": "zeros",
+            "device": "N/A",
+            "dtype": "N/A"
+        }
+    },
+    "decoder.blocks.3.conv2.1": {
+        "type": "BatchNorm2d",
+        "parameters": {
+            "num_features": 32,
+            "eps": 1e-05,
+            "momentum": 0.1,
+            "affine": true,
+            "track_running_stats": true,
+            "device": "N/A",
+            "dtype": "N/A"
+        }
+    },
+    "decoder.blocks.3.conv2.2": {
+        "type": "ReLU",
+        "parameters": {
+            "inplace": true
+        }
+    },
+    "decoder.blocks.3.attention2": {
+        "type": "Attention",
+        "parameters": {
+            "name": "N/A",
+            "params": "N/A"
+        }
+    },
+    "decoder.blocks.3.attention2.attention": {
+        "type": "Identity",
+        "parameters": {
+            "args": "N/A",
+            "kwargs": "N/A"
+        }
+    },
+    "decoder.blocks.4": {
+        "type": "DecoderBlock",
+        "parameters": {
+            "in_channels": "N/A",
+            "skip_channels": "N/A",
+            "out_channels": "N/A",
+            "use_batchnorm": "N/A",
+            "attention_type": "N/A"
+        }
+    },
+    "decoder.blocks.4.conv1": {
+        "type": "Conv2dReLU",
+        "parameters": {
+            "in_channels": "N/A",
+            "out_channels": "N/A",
+            "kernel_size": "N/A",
+            "padding": "N/A",
+            "stride": "N/A",
+            "use_batchnorm": "N/A"
+        }
+    },
+    "decoder.blocks.4.conv1.0": {
+        "type": "Conv2d",
+        "parameters": {
+            "in_channels": 32,
+            "out_channels": 16,
+            "kernel_size": [
+                3,
+                3
+            ],
+            "stride": [
+                1,
+                1
+            ],
+            "padding": [
+                1,
+                1
+            ],
+            "dilation": [
+                1,
+                1
+            ],
+            "groups": 1,
+            "bias": null,
+            "padding_mode": "zeros",
+            "device": "N/A",
+            "dtype": "N/A"
+        }
+    },
+    "decoder.blocks.4.conv1.1": {
+        "type": "BatchNorm2d",
+        "parameters": {
+            "num_features": 16,
+            "eps": 1e-05,
+            "momentum": 0.1,
+            "affine": true,
+            "track_running_stats": true,
+            "device": "N/A",
+            "dtype": "N/A"
+        }
+    },
+    "decoder.blocks.4.conv1.2": {
+        "type": "ReLU",
+        "parameters": {
+            "inplace": true
+        }
+    },
+    "decoder.blocks.4.attention1": {
+        "type": "Attention",
+        "parameters": {
+            "name": "N/A",
+            "params": "N/A"
+        }
+    },
+    "decoder.blocks.4.attention1.attention": {
+        "type": "Identity",
+        "parameters": {
+            "args": "N/A",
+            "kwargs": "N/A"
+        }
+    },
+    "decoder.blocks.4.conv2": {
+        "type": "Conv2dReLU",
+        "parameters": {
+            "in_channels": "N/A",
+            "out_channels": "N/A",
+            "kernel_size": "N/A",
+            "padding": "N/A",
+            "stride": "N/A",
+            "use_batchnorm": "N/A"
+        }
+    },
+    "decoder.blocks.4.conv2.0": {
+        "type": "Conv2d",
+        "parameters": {
+            "in_channels": 16,
+            "out_channels": 16,
+            "kernel_size": [
+                3,
+                3
+            ],
+            "stride": [
+                1,
+                1
+            ],
+            "padding": [
+                1,
+                1
+            ],
+            "dilation": [
+                1,
+                1
+            ],
+            "groups": 1,
+            "bias": null,
+            "padding_mode": "zeros",
+            "device": "N/A",
+            "dtype": "N/A"
+        }
+    },
+    "decoder.blocks.4.conv2.1": {
+        "type": "BatchNorm2d",
+        "parameters": {
+            "num_features": 16,
+            "eps": 1e-05,
+            "momentum": 0.1,
+            "affine": true,
+            "track_running_stats": true,
+            "device": "N/A",
+            "dtype": "N/A"
+        }
+    },
+    "decoder.blocks.4.conv2.2": {
+        "type": "ReLU",
+        "parameters": {
+            "inplace": true
+        }
+    },
+    "decoder.blocks.4.attention2": {
+        "type": "Attention",
+        "parameters": {
+            "name": "N/A",
+            "params": "N/A"
+        }
+    },
+    "decoder.blocks.4.attention2.attention": {
+        "type": "Identity",
+        "parameters": {
+            "args": "N/A",
+            "kwargs": "N/A"
+        }
+    },
+    "segmentation_head": {
+        "type": "SegmentationHead",
+        "parameters": {
+            "in_channels": "N/A",
+            "out_channels": "N/A",
+            "kernel_size": "N/A",
+            "activation": "N/A",
+            "upsampling": "N/A"
+        }
+    },
+    "segmentation_head.0": {
+        "type": "Conv2d",
+        "parameters": {
+            "in_channels": 16,
+            "out_channels": 4,
+            "kernel_size": [
+                3,
+                3
+            ],
+            "stride": [
+                1,
+                1
+            ],
+            "padding": [
+                1,
+                1
+            ],
+            "dilation": [
+                1,
+                1
+            ],
+            "groups": 1,
             "bias": [
-                -0.03589772433042526,
-                -0.03122163563966751,
-                -0.03928174450993538,
-                -0.034612081944942474,
-                -0.050037987530231476,
-                -0.017193913459777832,
-                0.0073135020211339,
-                0.016209140419960022,
-                -0.024194864556193352,
-                -0.0586734302341938,
-                -0.03912239521741867,
-                -0.031903743743896484,
-                -0.00030968920327723026,
-                -0.021087445318698883,
-                0.005357665475457907,
-                -0.027823032811284065,
-                -0.050516437739133835,
-                -0.05125472694635391,
-                -0.0339258573949337,
-                -0.04099235311150551,
-                -0.0525723434984684,
-                0.004889300093054771,
-                -0.04650010168552399,
-                -0.04089992120862007,
-                -0.0514141283929348,
-                -0.012869516387581825,
-                -0.014403508976101875,
-                -0.012236773036420345,
-                -0.027351219207048416,
-                -0.014666132628917694,
-                -0.014649341814219952,
-                -0.05785759910941124,
-                -0.03023531474173069,
-                -0.003462843596935272,
-                -0.04774869605898857,
-                0.008375892415642738,
-                -0.009787851013243198,
-                -0.001891986932605505,
-                -0.028443900868296623,
-                -0.0366465300321579,
-                -0.011107869446277618,
-                0.0058540236204862595,
-                -0.009161843918263912,
-                0.022419694811105728,
-                -0.05119016021490097,
-                0.009595507755875587,
-                -0.057302169501781464,
-                -0.0386197455227375,
-                0.02375674992799759,
-                -0.05785799399018288,
-                -0.018373342230916023,
-                -0.009971779771149158,
-                -0.023044366389513016,
-                0.020275862887501717,
-                -0.001171128824353218,
-                -0.07072269171476364,
-                -0.03397025540471077,
-                -0.00556905334815383,
-                -0.011512710712850094,
-                -0.012658288702368736,
-                0.01673073321580887,
-                -0.031716715544462204,
-                -0.010857531800866127,
-                0.012184231542050838,
-                0.010399836115539074,
-                0.02528921328485012,
-                0.003797689452767372,
-                -0.003320512128993869,
-                -0.050736408680677414,
-                -0.006900382228195667,
-                -0.024530816823244095,
-                -0.06135760247707367,
-                -0.04237217828631401,
-                -0.030894441530108452,
-                0.0173188503831625,
-                -0.0640498474240303,
-                -0.040557168424129486,
-                -0.03916411101818085,
-                0.001566959428600967,
-                0.009328602813184261,
-                -0.04557083174586296,
-                -0.07036536186933517,
-                -0.014454604126513004,
-                -0.018736988306045532,
-                -0.043307021260261536,
-                -0.061982933431863785,
-                -0.05603901669383049,
-                0.010251683183014393,
-                -0.01370735839009285,
-                0.02686154656112194,
-                -0.030800526961684227,
-                0.017972303554415703,
-                0.010881832800805569,
-                0.0017417102353647351,
-                -0.02658894844353199,
-                -0.04672114551067352,
-                -0.05330049619078636,
-                -0.05021284893155098,
-                -0.007531913463026285,
-                -0.008307413198053837,
-                -0.029495300725102425,
-                -0.04989621415734291,
-                -0.008461073972284794,
-                0.019729724153876305,
-                -0.03550045192241669,
-                0.009631498716771603,
-                -0.023783814162015915,
-                -0.028894023969769478,
-                -0.0006687822169624269,
-                -0.06580812484025955,
-                -0.04739978164434433,
-                -0.04654761403799057,
-                -0.038520168513059616,
-                -0.00035187570028938353,
-                -0.0024751415476202965,
-                -0.0115664629265666,
-                -0.0389280766248703,
-                -0.005816800519824028,
-                -0.005673996172845364,
-                -0.053794749081134796,
-                -0.02656974457204342,
-                -0.014598370529711246,
-                0.008369671180844307,
-                0.042127128690481186,
-                -0.031669363379478455,
-                -0.012622999958693981,
-                -0.03565835580229759,
-                0.01642978936433792
+                0.049086861312389374,
+                -0.04844382777810097,
+                -0.051085662096738815,
+                -0.04649444296956062
             ],
             "padding_mode": "zeros",
             "device": "N/A",
             "dtype": "N/A"
         }
     },
-    "fc1": {
-        "type": "Linear",
+    "segmentation_head.1": {
+        "type": "Identity",
         "parameters": {
-            "in_features": 6272,
-            "out_features": 256,
-            "bias": [
-                0.0016274320660158992,
-                -0.014382603578269482,
-                -0.0153166763484478,
-                -0.000821674766484648,
-                -0.001140469335950911,
-                -0.032469041645526886,
-                -0.0009504072950221598,
-                -0.002128185937181115,
-                0.00027360740932635963,
-                -0.004642440006136894,
-                -0.005505907349288464,
-                0.004090798087418079,
-                0.0176243856549263,
-                0.015053664334118366,
-                0.007584927137941122,
-                -0.008420733734965324,
-                0.008057553321123123,
-                -0.0029341578483581543,
-                -0.014698708429932594,
-                -0.010440977290272713,
-                -0.01733904331922531,
-                0.006800096016377211,
-                0.005315565969794989,
-                -0.0012251128209754825,
-                -0.01382400281727314,
-                -0.016245096921920776,
-                -0.0064403037540614605,
-                0.008114641532301903,
-                -0.010740636847913265,
-                -0.017310431227087975,
-                0.002834262792021036,
-                -0.005269681569188833,
-                -0.017493881285190582,
-                -0.004924272187054157,
-                0.0066077131778001785,
-                -0.008276010863482952,
-                -0.010758453980088234,
-                -0.031219571828842163,
-                -0.0007499285857193172,
-                0.0011713546700775623,
-                0.02172975428402424,
-                0.005683337803930044,
-                0.022256793454289436,
-                -0.004675701260566711,
-                -0.0009038678836077452,
-                0.00816520769149065,
-                0.004210440907627344,
-                -0.009678514674305916,
-                -0.010570360347628593,
-                0.005764383357018232,
-                -0.030859798192977905,
-                -0.00040872141835279763,
-                -0.003589426865801215,
-                -0.009046684950590134,
-                -0.02189038321375847,
-                0.005801678169518709,
-                -0.014266148209571838,
-                -0.022188933566212654,
-                -0.012841870076954365,
-                0.0028712477069348097,
-                -0.004080372862517834,
-                -0.008256712928414345,
-                -0.009717031382024288,
-                0.003317940980195999,
-                -0.05051059275865555,
-                0.011477125808596611,
-                -0.009006890468299389,
-                0.002660688478499651,
-                0.0011247949441894889,
-                -0.007921913638710976,
-                -0.014958590269088745,
-                0.0017732917331159115,
-                -0.011197050102055073,
-                0.0017567102331668139,
-                -0.01797810010612011,
-                0.004135932773351669,
-                -0.012892115861177444,
-                0.0013839246239513159,
-                -0.023461490869522095,
-                -0.0025868434458971024,
-                0.014521179720759392,
-                -0.013892250135540962,
-                -0.029425980523228645,
-                -0.005527632776647806,
-                -0.03408258780837059,
-                -0.015001165680587292,
-                -0.0018933662213385105,
-                -0.0030550709925591946,
-                -0.0014729048125445843,
-                -0.00887254811823368,
-                0.012252844870090485,
-                -0.003491921816021204,
-                0.004872054327279329,
-                0.001298185670748353,
-                -0.0005885693826712668,
-                -0.026977049186825752,
-                0.00043488378287293017,
-                -0.006374743767082691,
-                -0.011400505900382996,
-                -0.010027952492237091,
-                0.004236144479364157,
-                -0.005883248057216406,
-                -0.003897637827321887,
-                0.01671549677848816,
-                0.0015901237493380904,
-                -0.008527101017534733,
-                -0.007590750232338905,
-                -0.015855472534894943,
-                -0.007187648676335812,
-                -0.0056509762071073055,
-                -0.010414652526378632,
-                -0.013320322148501873,
-                -0.004347207490354776,
-                0.0045590586960315704,
-                0.0032872941810637712,
-                -0.003774109063670039,
-                0.0004445973609108478,
-                0.017243685200810432,
-                -0.017600422725081444,
-                -0.00555309746414423,
-                -0.010372156277298927,
-                -0.013435257598757744,
-                -0.007655694615095854,
-                0.010083037428557873,
-                0.002507284749299288,
-                -0.001511804643087089,
-                0.008103234693408012,
-                0.0044345548376441,
-                0.007059613708406687,
-                0.01717260666191578,
-                -0.03898518159985542,
-                -0.0392189659178257,
-                -0.014263168908655643,
-                -0.009303107857704163,
-                0.02593318372964859,
-                0.018978329375386238,
-                -0.005792439449578524,
-                0.0060913474299013615,
-                -0.0003032350505236536,
-                -0.009047962725162506,
-                0.0003928791848011315,
-                0.004231437109410763,
-                -0.009526418522000313,
-                -0.004504418931901455,
-                -0.018261414021253586,
-                -0.009865060448646545,
-                -0.00081299600424245,
-                -0.006413319148123264,
-                -0.010045913979411125,
-                0.007730309385806322,
-                -0.0036206445656716824,
-                -0.002238565357401967,
-                0.005558981094509363,
-                -0.006408475339412689,
-                -0.004818057641386986,
-                0.016556235030293465,
-                0.008638633415102959,
-                0.00987801793962717,
-                0.010268758982419968,
-                0.007281580474227667,
-                -0.01619700714945793,
-                0.034829434007406235,
-                -0.007446889765560627,
-                0.013952943496406078,
-                0.006226639728993177,
-                -0.023514825850725174,
-                -0.0046007065102458,
-                -0.004813900217413902,
-                0.005678614601492882,
-                -0.004432534333318472,
-                -0.003050387604162097,
-                -0.00032607250614091754,
-                0.0036219677422195673,
-                -0.008507778868079185,
-                -0.00034104305086657405,
-                0.0008746501407586038,
-                -0.0007811542600393295,
-                -0.021815450862050056,
-                -0.0027076750993728638,
-                0.005456759128719568,
-                -0.0006329191965050995,
-                -0.0029832369182258844,
-                0.01826891489326954,
-                0.011708548292517662,
-                -0.008630807511508465,
-                -0.012514865025877953,
-                0.0013323718449100852,
-                0.007230367511510849,
-                -0.016132542863488197,
-                0.017036860808730125,
-                -0.0029204522725194693,
-                0.002037798287346959,
-                0.0011334239970892668,
-                -0.0036460713017731905,
-                0.010709906928241253,
-                -0.01191798597574234,
-                0.0036500529386103153,
-                -0.019889265298843384,
-                0.02749503403902054,
-                -0.001715287333354354,
-                0.002553344937041402,
-                0.006724626291543245,
-                -0.005482957232743502,
-                -0.007256532087922096,
-                0.01613747514784336,
-                -0.0023650070652365685,
-                -0.01199797261506319,
-                0.003025767859071493,
-                -0.00979271624237299,
-                -0.017332537099719048,
-                -0.017874712124466896,
-                0.0023252798710018396,
-                0.010460556484758854,
-                0.0041789524257183075,
-                -0.0011521910782903433,
-                0.007512427866458893,
-                -0.0015435611130669713,
-                0.006264417432248592,
-                -0.03114796057343483,
-                0.011433809995651245,
-                -0.020872661843895912,
-                -0.013512682169675827,
-                -0.007534093223512173,
-                0.009900080971419811,
-                0.015431963838636875,
-                0.00643985765054822,
-                0.008716193027794361,
-                0.016651086509227753,
-                0.0057440283708274364,
-                -0.004615318030118942,
-                0.001514121307991445,
-                0.001943632960319519,
-                -0.01379633229225874,
-                0.0028959757182747126,
-                -0.012812778353691101,
-                -0.0010029168333858252,
-                0.0006835538661107421,
-                0.00794968195259571,
-                -0.005450737662613392,
-                -0.005062056705355644,
-                0.009753835387527943,
-                -0.013033982366323471,
-                -0.0014248439110815525,
-                -0.00827069953083992,
-                -0.015561369247734547,
-                -0.02538377232849598,
-                -0.009161019697785378,
-                -0.01836691051721573,
-                -0.0130411796271801,
-                0.028516901656985283,
-                -0.010552524589002132,
-                0.00015700358198955655,
-                -0.009234031662344933,
-                0.012733491137623787,
-                -0.017082752659916878,
-                0.007478930056095123
-            ],
-            "device": "N/A",
-            "dtype": "N/A"
+            "args": "N/A",
+            "kwargs": "N/A"
         }
     },
-    "fc2": {
-        "type": "Linear",
+    "segmentation_head.2": {
+        "type": "Activation",
         "parameters": {
-            "in_features": 256,
-            "out_features": 10,
-            "bias": [
-                -0.03648599237203598,
-                0.07501515746116638,
-                -0.042745985090732574,
-                -0.06624676287174225,
-                0.039040591567754745,
-                -0.04925733432173729,
-                0.004846628289669752,
-                0.02138935960829258,
-                -0.020077485591173172,
-                0.05950763449072838
-            ],
-            "device": "N/A",
-            "dtype": "N/A"
+            "name": "N/A",
+            "params": "N/A"
+        }
+    },
+    "segmentation_head.2.activation": {
+        "type": "Identity",
+        "parameters": {
+            "args": "N/A",
+            "kwargs": "N/A"
         }
     }
 }
