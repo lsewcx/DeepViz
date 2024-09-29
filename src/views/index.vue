@@ -12,7 +12,7 @@
           {{ selectedNode?.data.label }}
         </el-descriptions-item>
         <el-descriptions-item label="类型">
-          {{ selectedNode?.type }}
+          {{ nodeDetails.type }}
         </el-descriptions-item>
         <template v-for="(value, key) in nodeDetails.parameters" :key="key">
           <el-descriptions-item v-if="key !== 'bias'" :label="key">
@@ -38,7 +38,7 @@ import 'element-plus/dist/index.css';
 
 import { ref, onMounted } from 'vue'
 import { Background, Panel, PanelPosition, Controls } from '@vue-flow/additional-components'
-import { VueFlow, useVueFlow } from '@vue-flow/core'
+import { VueFlow } from '@vue-flow/core'
 import axios from 'axios'
 import { ElDrawer, ElDescriptions, ElDescriptionsItem, ElCollapse, ElCollapseItem } from 'element-plus'
 
@@ -50,10 +50,10 @@ const fetchModelStructure = async () => {
     const modelParam = response.data
     modelLayers.value = modelParam
 
-    const nodes = []
-    const edges = []
+    const nodes: { id: string; type: string; data: { label: string; }; position: { x: number; y: number; }; }[] = []
+    const edges: { id: string; source: string; target: string; animated: boolean; }[] = []
 
-    Object.entries(modelParam).forEach(([name, layer], index) => {
+    Object.entries(modelParam).forEach(([name], index) => {
       let nodeType = 'default'
       if (index === 0) {
         nodeType = 'input'
@@ -90,12 +90,12 @@ onMounted(() => {
   fetchModelStructure()
 })
 
-const elements = ref([])
+const elements = ref<Array<{ id: string; type?: string; data?: { label: string; }; position?: { x: number; y: number; }; source?: string; target?: string; animated?: boolean; }>>([])
 const drawerVisible = ref(false)
-const selectedNode = ref(null)
+const selectedNode = ref<{ data: { label: any; } } | null>(null)
 const nodeDetails = ref(null)
 
-const onNodeClick = (event) => {
+const onNodeClick = (event: { node: { data: { label: any; }; } | null; }) => {
   console.log('Node clicked:', event.node) // 添加日志以调试
   selectedNode.value = event.node
   drawerVisible.value = true
