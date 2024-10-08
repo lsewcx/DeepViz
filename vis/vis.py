@@ -12,6 +12,9 @@ import inspect
 from PIL import Image
 from rich import print
 
+# 使用相对导入
+from netron.source.server import *
+
 try:
     matplotlib.use('TkAgg')
 except Exception as e:
@@ -57,18 +60,20 @@ class ModelInspector:
         return layer_params
 
     @staticmethod
-    def get_model_structure(model: torch.nn.Module, parent_name: str = '') -> dict:
+    def get_model_structure(model: torch.nn.Module, parent_name: str = '', connect_to: str = None) -> dict:
         model_structure = {}
-        for name, layer in model.named_children():
+        children = list(model.named_children())
+        for i, (name, layer) in enumerate(children):
             full_name = f"{parent_name}.{name}" if parent_name else name
             layer_params = ModelInspector.get_layer_parameters(layer)
+            next_layer_name = children[i + 1][0] if i + 1 < len(children) else None
+            submodules = ModelInspector.get_model_structure(layer, full_name, next_layer_name) if len(list(layer.named_children())) > 0 else None
             model_structure[full_name] = {
                 'type': type(layer).__name__,
-                'parameters': layer_params
+                'parameters': layer_params,
+                'connect_to': next_layer_name,
+                'submodules': submodules
             }
-            # 递归获取子模块的参数
-            if len(list(layer.named_children())) > 0:
-                model_structure.update(ModelInspector.get_model_structure(layer, full_name))
         return model_structure
 
     @staticmethod
@@ -151,6 +156,12 @@ def vis() -> None:
                 'output_data': output_data
             }, f, indent=4)
         logger.info(f'Full model structure and output data saved to model_full_structure.json')
-    
+
+def netron_json() -> None:
+    # get_json('vis/tinyvgg_model.pth')
+    serve('vis/tinyvgg_model.pth')
+    # get_json('vis/tinyvgg_model.pth')
+
+
 if __name__ == '__main__':
-    vis()
+    netron_json()

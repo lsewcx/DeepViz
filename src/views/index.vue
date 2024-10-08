@@ -26,6 +26,31 @@
             </el-collapse>
           </el-descriptions-item>
         </template>
+        <template v-if="nodeDetails.submodules">
+          <el-descriptions-item label="子模块">
+            <el-collapse>
+              <el-collapse-item v-for="(submodule, submoduleName) in nodeDetails.submodules" :key="submoduleName" :title="submoduleName">
+                <el-descriptions border :column="1">
+                  <el-descriptions-item label="类型">
+                    {{ submodule.type }}
+                  </el-descriptions-item>
+                  <template v-for="(value, key) in submodule.parameters" :key="key">
+                    <el-descriptions-item v-if="key !== 'bias'" :label="key">
+                      {{ Array.isArray(value) ? value.join(', ') : value }}
+                    </el-descriptions-item>
+                    <el-descriptions-item v-else :label="key">
+                      <el-collapse>
+                        <el-collapse-item title="点击展开">
+                          {{ value.join(', ') }}
+                        </el-collapse-item>
+                      </el-collapse>
+                    </el-descriptions-item>
+                  </template>
+                </el-descriptions>
+              </el-collapse-item>
+            </el-collapse>
+          </el-descriptions-item>
+        </template>
       </el-descriptions>
     </el-drawer>
   </div>
@@ -42,6 +67,8 @@ import { VueFlow } from '@vue-flow/core'
 import axios from 'axios'
 import { ElDrawer, ElDescriptions, ElDescriptionsItem, ElCollapse, ElCollapseItem } from 'element-plus'
 
+
+
 const modelLayers = ref([])
 
 const fetchModelStructure = async () => {
@@ -53,7 +80,7 @@ const fetchModelStructure = async () => {
     const nodes: { id: string; type: string; data: { label: string; }; position: { x: number; y: number; }; }[] = []
     const edges: { id: string; source: string; target: string; animated: boolean; }[] = []
 
-    Object.entries(modelParam).forEach(([name], index) => {
+    Object.entries(modelParam).forEach(([name, details], index) => {
       let nodeType = 'default'
       if (index === 0) {
         nodeType = 'input'
@@ -76,6 +103,24 @@ const fetchModelStructure = async () => {
           source: `${index}`,
           target: `${index + 1}`,
           animated: true
+        })
+      }
+
+      // 处理子模块
+      if (details.submodules) {
+        Object.entries(details.submodules).forEach(([subName, subDetails], subIndex) => {
+          nodes.push({
+            id: `${index + 1}-${subIndex + 1}`,
+            type: 'submodule',
+            data: { label: `${name}.${subName}` },
+            position: { x: 200, y: 100 * (index + 1) + 50 * (subIndex + 1) }
+          })
+          edges.push({
+            id: `e${index + 1}-${subIndex + 1}`,
+            source: `${index + 1}`,
+            target: `${index + 1}-${subIndex + 1}`,
+            animated: true
+          })
         })
       }
     })
@@ -102,7 +147,8 @@ const onNodeClick = (event: { node: { data: { label: any; }; } | null; }) => {
 
   // 获取节点详细信息
   const nodeName = event.node.data.label
-  nodeDetails.value = modelLayers.value[nodeName]
+  const [mainModule, subModule] = nodeName.split('.')
+  nodeDetails.value = subModule ? modelLayers.value[mainModule].submodules[subModule] : modelLayers.value[mainModule]
 }
 </script>
 
