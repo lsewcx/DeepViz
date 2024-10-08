@@ -13,7 +13,7 @@ from PIL import Image
 from rich import print
 
 # 使用相对导入
-from netron.source.server import *
+from model.source.server import *
 
 try:
     matplotlib.use('TkAgg')
